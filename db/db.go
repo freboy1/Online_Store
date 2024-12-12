@@ -66,11 +66,11 @@ func ping(client *mongo.Client, ctx context.Context) error{
     return nil
 }
 
-func Connect() (*mongo.Client, context.Context, bool){
+func Connect(uri string) (*mongo.Client, context.Context, bool){
 
     // Get Client, Context, CancelFunc and 
     // err from connect method.
-    client, ctx, cancel, err := connect("mongodb://localhost:2707")
+    client, ctx, cancel, err := connect(uri)
     if err != nil {
         return nil, nil, true
     }

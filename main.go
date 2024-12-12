@@ -67,7 +67,8 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
 
 
 func main() {
-	client, ctx, dbErr := db.Connect()
+	uri := "mongodb://localhost:2707"
+	client, ctx, dbErr := db.Connect(uri)
 	if dbErr {
 		log.Println("Could not connect to the MongoDB")
 	}
