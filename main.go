@@ -51,10 +51,24 @@ func home(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+type ProductModel struct {
+	Name string
+	Description string
+	Price int
+	Discount int
+	Quantity int
+}
+
+
+func getProducts(w http.ResponseWriter, r *http.Request) {
+
+}
+
 
 func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", home)
+	mux.HandleFunc("/products", getProducts)
 
 	log.Println("Запуск веб-сервера на http://127.0.0.1:8080")
 	err := http.ListenAndServe(":8080", mux)
