@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"onlinestore/db"
 )
 
 type GetMessage struct {
@@ -66,6 +67,10 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
 
 
 func main() {
+	client, ctx, dbErr := db.Connect()
+	if dbErr {
+		log.Println("Could not connect to the MongoDB")
+	}
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", home)
 	mux.HandleFunc("/products", getProducts)
