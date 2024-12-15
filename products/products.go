@@ -25,7 +25,7 @@ func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Clien
 			fmt.Fprintf(w, "ParseForm() err: %v", err)
 			return
 		}
-		name, description, priceStr, discountStr, quantityStr :=  r.FormValue("name"),  r.FormValue("desc"),  r.FormValue("price"),  r.FormValue("discount"),  r.FormValue("quantity")
+		name, description, priceStr, discountStr, quantityStr :=  r.FormValue("name"),  r.FormValue("description"),  r.FormValue("price"),  r.FormValue("discount"),  r.FormValue("quantity")
 		product, err := checkProduct(name, description, priceStr, discountStr, quantityStr)
 		if err != nil {
 			fmt.Println("Error with product")
@@ -37,6 +37,8 @@ func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Clien
 		}
 	
 		fmt.Println("Inserted product with ID:", result.InsertedID)
+		http.Redirect(w, r, r.URL.Path, http.StatusSeeOther)
+		return
 	} else if r.Method == http.MethodDelete {
 		if err := r.ParseForm(); err != nil {
 			fmt.Fprintf(w, "ParseForm() err: %v", err)
