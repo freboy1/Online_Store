@@ -66,20 +66,24 @@ func ping(client *mongo.Client, ctx context.Context) error{
     return nil
 }
 
-func Connect(uri string) (*mongo.Client, context.Context, bool){
-
-    // Get Client, Context, CancelFunc and 
-    // err from connect method.
-    client, ctx, cancel, err := connect(uri)
+func ConnectMongoDB(uri string) (*mongo.Client, error) {
+    client, err := mongo.NewClient(options.Client().ApplyURI(uri))
     if err != nil {
-        return nil, nil, true
+        return nil, fmt.Errorf("failed to create client: %w", err)
     }
-    
-    // Release resource when the main
-    // function is returned.
-    defer close(client, ctx, cancel)
-    
-    // Ping mongoDB with Ping method
-    ping(client, ctx)
-	return client, ctx, false
+
+    ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+    defer cancel()
+
+    if err := client.Connect(ctx); err != nil {
+        return nil, fmt.Errorf("failed to connect to MongoDB: %w", err)
+    }
+
+    // Verify the connection
+    if err := client.Ping(ctx, readpref.Primary()); err != nil {
+        return nil, fmt.Errorf("failed to ping MongoDB: %w", err)
+    }
+
+    return client, nil
 }
+

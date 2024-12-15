@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"strconv"
 	"onlinestore/db"
+	"onlinestore/products"
 )
 
 type GetMessage struct {
@@ -52,29 +53,23 @@ func home(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-type ProductModel struct {
-	Name string
-	Description string
-	Price int
-	Discount int
-	Quantity int
-}
 
-
-func getProducts(w http.ResponseWriter, r *http.Request) {
-
-}
 
 
 func main() {
-	uri := "mongodb://localhost:2707"
-	client, ctx, dbErr := db.Connect(uri)
-	if dbErr {
+	uri := "mongodb://localhost:27017"
+	client, dbErr := db.ConnectMongoDB(uri)
+	if dbErr != nil {
 		log.Println("Could not connect to the MongoDB")
 	}
+	database := "onlineStore"
+	collection := "AlisherExpress"
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", home)
-	mux.HandleFunc("/products", getProducts)
+	mux.HandleFunc("/products", func(w http.ResponseWriter, r *http.Request) {
+        products.ProductsHandler(w, r, client, database, collection)
+    })
+
 
 	log.Println("Запуск веб-сервера на http://127.0.0.1:8080")
 	err := http.ListenAndServe(":8080", mux)
