@@ -45,8 +45,8 @@ func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Clien
 			fmt.Fprintf(w, "ParseForm() err: %v", err)
 			return
 		}
-		name := r.FormValue("name")
-		result, err := deleteOne(client, context.TODO(), database, collection, name)
+		id, _ := strconv.ParseInt(r.FormValue("id"), 10, 64)
+		result, err := deleteOne(client, context.TODO(), database, collection, id)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -101,9 +101,9 @@ func insertOne (client *mongo.Client, ctx context.Context, dataBase, col string,
     return result, err
 }
 
-func deleteOne(client *mongo.Client, ctx context.Context, dataBase, col, name string) (*mongo.DeleteResult, error) {
+func deleteOne(client *mongo.Client, ctx context.Context, dataBase, col string, id int64) (*mongo.DeleteResult, error) {
 	collection := client.Database(dataBase).Collection(col)
-	filter := bson.D{{"name", name}}
+	filter := bson.D{{"id", id}}
 	result, err := collection.DeleteOne(ctx, filter)
 	return result, err
 }
