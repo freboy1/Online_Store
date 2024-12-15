@@ -32,6 +32,18 @@ func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Clien
 		}
 	
 		fmt.Println("Inserted product with ID:", result.InsertedID)
+	} else if r.Method == http.MethodDelete {
+		if err := r.ParseForm(); err != nil {
+			fmt.Fprintf(w, "ParseForm() err: %v", err)
+			return
+		}
+		name := r.FormValue("name")
+		result, err := deleteOne(client, context.TODO(), database, collection, name)
+		if err != nil {
+			log.Fatal(err)
+		}
+	
+		fmt.Println("Deleted succesfully:", result)
 	}
 }
 
@@ -80,4 +92,11 @@ func insertOne (client *mongo.Client, ctx context.Context, dataBase, col string,
     // and of empty interface   
     result, err := collection.InsertOne(ctx, product)
     return result, err
+}
+
+func deleteOne(client *mongo.Client, ctx context.Context, dataBase, col, name string) (*mongo.DeleteResult, error) {
+	collection := client.Database(dataBase).Collection(col)
+	filter := bson.D{{"name", name}}
+	result, err := collection.DeleteOne(ctx, filter)
+	return result, err
 }
