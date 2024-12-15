@@ -2,19 +2,24 @@ package products
 
 import (
 	"context"
-	"encoding/json"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"net/http"
 	"fmt"
 	"strconv"
 	"log"
+	"html/template"
 )
 
 func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Client, database, collection string) {
 	if r.Method == http.MethodGet {
 		products := GetProducts(client, database, collection)
-		w.Write(products)
+		tmpl, err := template.ParseFiles("templates/products.html")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		tmpl.Execute(w, products)
 	} else if r.Method == http.MethodPost {
 		if err := r.ParseForm(); err != nil {
 			fmt.Fprintf(w, "ParseForm() err: %v", err)
@@ -69,7 +74,7 @@ func checkProduct(name, description, priceStr, discountStr, quantityStr string) 
 	product.Quantity = quantity
 	return product, nil
 }
-func GetProducts(client *mongo.Client, database, collection string) []byte {
+func GetProducts(client *mongo.Client, database, collection string)  []ProductModel {
 	coll := client.Database(database).Collection(collection)
 	cursor, err := coll.Find(context.TODO(), bson.D{})
 	if err != nil {
@@ -79,8 +84,7 @@ func GetProducts(client *mongo.Client, database, collection string) []byte {
 	if err = cursor.All(context.TODO(), &bsonProducts); err != nil {
 		panic(err)
 	}
-	jsonProducts, err := json.Marshal(bsonProducts)
-	return jsonProducts
+	return bsonProducts
 }
 func insertOne (client *mongo.Client, ctx context.Context, dataBase, col string, product ProductModel) (*mongo.InsertOneResult, error) {
 
