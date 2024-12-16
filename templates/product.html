@@ -4,17 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product</title>
+    <style>
+        input, button {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
     <h1>Product List <a href="http://127.0.0.1:8080/products">Go Back</a></h1>
     {{range .}}
-        {{.Name}}
-        <ul>
-            <li>{{.Description}}</li>
-            <li>Price: {{.Price}}</li>
-            <li>Discount: {{.Discount}}</li>
-            <li>Quantity: {{.Quantity}}</li>
-        </ul>
+
+        <form action="/products" method="post">
+            <label for="name">Enter Product Name:</label>
+            <input type="text" id="name" name="name"  value="{{.Name}}">
+            <br>
+            <label for="description">Enter Product Description:</label>
+            <input type="text" id="description" name="description" value="{{.Description}}">
+            <br>
+            <label for="price">Enter Product Price:</label>
+            <input type="text" id="price" name="price" value="{{.Price}}" required>
+            <br>
+            <label for="discount">Enter Product Discount:</label>
+            <input type="text" id="discount" name="discount" value="{{.Discount}}" required>
+            <br>
+            <label for="quantity">Enter Product Quantity:</label>
+            <input type="text" id="quantity" name="quantity" value="{{.Quantity}}" required>
+            <br>
+            <input type="text" id="action" name="action" hidden value="update">
+            <button type="submit">Update</button>
+        </form>
+
     {{end}}
     <form action="" method="post">
         <input type="text" id="action" name="action" hidden value="delete">
