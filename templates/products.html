@@ -33,7 +33,7 @@
 
     <h1>Products List</h1>
     {{range .}}
-        {{.Name}}
+        <a href="http://127.0.0.1:8080/products/{{.ID}}">{{.Name}}</a>
         <ul>
             <li>{{.Description}}</li>
             <li>Price: {{.Price}}</li>

@@ -6,7 +6,7 @@
     <title>Product</title>
 </head>
 <body>
-    <h1>Product List</h1>
+    <h1>Product List <a href="http://127.0.0.1:8080/products">Go Back</a></h1>
     {{range .}}
         {{.Name}}
         <ul>
@@ -16,7 +16,6 @@
             <li>Quantity: {{.Quantity}}</li>
         </ul>
     {{end}}
-
     <form action="" method="post">
         <input type="text" id="action" name="action" hidden value="delete">
         <button type="submit">Delete</button>
