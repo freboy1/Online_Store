@@ -12,6 +12,11 @@
 </head>
 <body>
     <h1>Create Product</h1>
+    {{if .Error}}
+        <div style="color: red;">
+            {{.Error}}
+        </div>
+    {{end}}
     <form action="/products" method="post">
         <label for="name">Enter Product Name:</label>
         <input type="text" id="name" name="name" required>

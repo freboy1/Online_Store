@@ -12,6 +12,13 @@
 </head>
 <body>
     <h1>Product List <a href="http://127.0.0.1:8080/products">Go Back</a></h1>
+
+    {{if .Error}}
+    <div style="color: red;">
+        {{.Error}}
+    </div>
+    {{end}}
+
     {{range .}}
 
         <form action="" method="post">
