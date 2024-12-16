@@ -7,52 +7,49 @@ import (
 	"net/http"
 	"fmt"
 	"strconv"
-	"log"
 	"html/template"
 	"time"
 )
 
 func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Client, database, collection string) {
+	var pageData PageData
+	// Fetch products from the database
+	products := GetProducts(client, database, collection, bson.D{})
+	pageData.Products = products
 	if r.Method == http.MethodGet {
-		products := GetProducts(client, database, collection,bson.D{})
 		tmpl, err := template.ParseFiles("templates/products.html")
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+			pageData.Error = "Error with template"
 		}
-		tmpl.Execute(w, products)
+		tmpl.Execute(w, pageData)
 	} else if r.Method == http.MethodPost {
 		if err := r.ParseForm(); err != nil {
-			fmt.Fprintf(w, "ParseForm() err: %v", err)
+			pageData.Error = fmt.Sprintf("ParseForm() error: %v", err)
+			tmpl, _ := template.ParseFiles("templates/products.html")
+			tmpl.Execute(w, pageData)
 			return
 		}
 		name, description, priceStr, discountStr, quantityStr :=  r.FormValue("name"),  r.FormValue("description"),  r.FormValue("price"),  r.FormValue("discount"),  r.FormValue("quantity")
 		product, err := checkProduct(name, description, priceStr, discountStr, quantityStr)
 		if err != nil {
-			fmt.Println("Error with product")
+			pageData.Error = ("Input for price, discount, quantity must be numbers")
+			tmpl, _ := template.ParseFiles("templates/products.html")
+			tmpl.Execute(w, pageData)
 			return
 		}
 		result, err := insertOne(client, context.TODO(), database, collection, product)
 		if err != nil {
-			log.Fatal(err)
+			pageData.Error = "Error inserting product: " + err.Error()
+			tmpl, _ := template.ParseFiles("templates/products.html")
+			tmpl.Execute(w, pageData)
+			return
+
 		}
 	
 		fmt.Println("Inserted product with ID:", result.InsertedID)
 		http.Redirect(w, r, r.URL.Path, http.StatusSeeOther)
 		return
-	} else if r.Method == http.MethodDelete {
-		if err := r.ParseForm(); err != nil {
-			fmt.Fprintf(w, "ParseForm() err: %v", err)
-			return
-		}
-		id, _ := strconv.ParseInt(r.FormValue("id"), 10, 64)
-		result, err := deleteOne(client, context.TODO(), database, collection, id)
-		if err != nil {
-			log.Fatal(err)
-		}
-	
-		fmt.Println("Deleted succesfully:", result)
-	}
+	} 
 }
 
 func checkProduct(name, description, priceStr, discountStr, quantityStr string) (ProductModel, error) {

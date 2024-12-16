@@ -37,7 +37,7 @@
     </form>
 
     <h1>Products List</h1>
-    {{range .}}
+    {{range .Products}}
         <a href="http://127.0.0.1:8080/products/{{.ID}}">{{.Name}}</a>
         <ul>
             <li>{{.Description}}</li>
