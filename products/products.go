@@ -13,7 +13,6 @@ import (
 
 func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Client, database, collection string) {
 	var pageData PageData
-	// Fetch products from the database
 	products := GetProducts(client, database, collection, bson.D{})
 	pageData.Products = products
 	if r.Method == http.MethodGet {

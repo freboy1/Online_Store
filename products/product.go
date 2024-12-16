@@ -4,10 +4,8 @@ import (
 	"context"
 	"fmt"
 	"html/template"
-	"log"
 	"net/http"
 	"strconv"
-
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -17,17 +15,24 @@ func Product(w http.ResponseWriter, r *http.Request, client *mongo.Client, datab
 	vars := mux.Vars(r)
 	idStr := vars["id"] 
 	id, _ := strconv.ParseInt(idStr, 10, 64)
+	var pageData PageData
+
+	product := GetProducts(client, database, collection, bson.D{{"id", id}})
+	pageData.Products = product
+	pageData.Error = ""
+	
+	tmpl, err := template.ParseFiles("templates/product.html")
+	if err != nil {
+		pageData.Error = "Error with template"
+	}
+
 	if r.Method == http.MethodGet {
-		product := GetProducts(client, database, collection, bson.D{{"id", id}})
-		tmpl, err := template.ParseFiles("templates/product.html")
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		tmpl.Execute(w, product)
+		tmpl.Execute(w, pageData)
 	} else if r.Method == http.MethodPost {
 		if err := r.ParseForm(); err != nil {
-			fmt.Fprintf(w, "ParseForm() err: %v", err)
+			pageData.Error = fmt.Sprintf("ParseForm() error: %v", err)
+			tmpl, _ := template.ParseFiles("templates/products.html")
+			tmpl.Execute(w, pageData)
 			return
 		}
 		action := r.FormValue("action")
@@ -35,7 +40,9 @@ func Product(w http.ResponseWriter, r *http.Request, client *mongo.Client, datab
 		case "delete":
 			result, err := deleteOne(client, context.TODO(), database, collection, id)
 			if err != nil {
-				log.Fatal(err)
+				pageData.Error = "Could not delete"
+				tmpl.Execute(w, pageData)
+				return
 			}
 		
 			fmt.Println("Deleted succesfully:", result)
@@ -43,18 +50,25 @@ func Product(w http.ResponseWriter, r *http.Request, client *mongo.Client, datab
 			return
 		case "update":
 			if err := r.ParseForm(); err != nil {
-				fmt.Fprintf(w, "ParseForm() err: %v", err)
+				pageData.Error = fmt.Sprintf("ParseForm() error: %v", err)
+				tmpl, _ := template.ParseFiles("templates/products.html")
+				tmpl.Execute(w, pageData)
 				return
 			}
 			name, description, priceStr, discountStr, quantityStr :=  r.FormValue("name"),  r.FormValue("description"),  r.FormValue("price"),  r.FormValue("discount"),  r.FormValue("quantity")
 			product, err := checkProduct(name, description, priceStr, discountStr, quantityStr)
 			if err != nil {
-				fmt.Println("Error with product")
+				pageData.Error = ("Input for price, discount, quantity must be numbers")
+				tmpl, _ := template.ParseFiles("templates/product.html")
+				tmpl.Execute(w, pageData)
 				return
 			}
 			err = updateOne(client, context.TODO(), database, collection, id, product)
 			if err != nil {
-				fmt.Println("Could not update product")
+				pageData.Error = "Error inserting product: " + err.Error()
+				tmpl, _ := template.ParseFiles("templates/product.html")
+				tmpl.Execute(w, pageData)
+				return
 			}
 			http.Redirect(w, r, "http://127.0.0.1:8080/products", http.StatusSeeOther)
 			return
