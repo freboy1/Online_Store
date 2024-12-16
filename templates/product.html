@@ -14,7 +14,7 @@
     <h1>Product List <a href="http://127.0.0.1:8080/products">Go Back</a></h1>
     {{range .}}
 
-        <form action="/products" method="post">
+        <form action="" method="post">
             <label for="name">Enter Product Name:</label>
             <input type="text" id="name" name="name"  value="{{.Name}}">
             <br>

@@ -107,3 +107,30 @@ func deleteOne(client *mongo.Client, ctx context.Context, dataBase, col string, 
 	result, err := collection.DeleteOne(ctx, filter)
 	return result, err
 }
+
+func updateOne(client *mongo.Client, ctx context.Context, dataBase, col string, id int64, Product ProductModel) error {
+	collection := client.Database(dataBase).Collection(col)
+	filter := bson.D{{"id", id}}
+	update := bson.D{
+		{"$set", bson.D{
+			{"name", Product.Name},
+			{"description", Product.Description},
+			{"price", Product.Price},
+			{"discount", Product.Discount},
+			{"quantity", Product.Quantity},
+		}},
+	}
+	result, err := collection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		fmt.Println("failed to update product")
+		return err
+	}
+
+	// Check if the product was found and updated
+	if result.MatchedCount == 0 {
+		return err
+	}
+
+	fmt.Printf("Successfully updated %d product(s)\n", result.ModifiedCount)
+	return nil
+}
