@@ -8,3 +8,8 @@ type ProductModel struct {
 	Discount    int    `bson:"discount"`
 	Quantity    int    `bson:"quantity"`
 }
+
+type PageData struct {
+	Products []ProductModel
+	Error    string
+}
