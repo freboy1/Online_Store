@@ -14,7 +14,7 @@ import (
 
 func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Client, database, collection string) {
 	if r.Method == http.MethodGet {
-		products := GetProducts(client, database, collection)
+		products := GetProducts(client, database, collection,bson.D{})
 		tmpl, err := template.ParseFiles("templates/products.html")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -77,9 +77,9 @@ func checkProduct(name, description, priceStr, discountStr, quantityStr string) 
 	product.Quantity = quantity
 	return product, nil
 }
-func GetProducts(client *mongo.Client, database, collection string)  []ProductModel {
+func GetProducts(client *mongo.Client, database, collection string, filter bson.D)  []ProductModel {
 	coll := client.Database(database).Collection(collection)
-	cursor, err := coll.Find(context.TODO(), bson.D{})
+	cursor, err := coll.Find(context.TODO(), filter)
 	if err != nil {
 		panic(err)
 	}

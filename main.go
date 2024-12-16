@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"onlinestore/db"
 	"onlinestore/products"
+	"github.com/gorilla/mux"
 )
 
 type GetMessage struct {
@@ -64,12 +65,14 @@ func main() {
 	}
 	database := "onlineStore"
 	collection := "AlisherExpress"
-	mux := http.NewServeMux()
+	mux := mux.NewRouter()
 	mux.HandleFunc("/", home)
 	mux.HandleFunc("/products", func(w http.ResponseWriter, r *http.Request) {
         products.ProductsHandler(w, r, client, database, collection)
     })
-
+	mux.HandleFunc("/products/{id:[0-9]+}", func(w http.ResponseWriter, r *http.Request) {
+        products.Product(w, r, client, database, collection)
+    })
 
 	log.Println("Запуск веб-сервера на http://127.0.0.1:8080")
 	err := http.ListenAndServe(":8080", mux)
