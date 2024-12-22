@@ -16,6 +16,9 @@ func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Clien
 	products := GetProducts(client, database, collection, bson.D{})
 	pageData.Products = products
 	if r.Method == http.MethodGet {
+		r.ParseForm()
+		filters := r.Form["filter"]
+		
 		tmpl, err := template.ParseFiles("templates/products.html")
 		if err != nil {
 			pageData.Error = "Error with template"
