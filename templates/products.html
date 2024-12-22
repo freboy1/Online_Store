@@ -35,8 +35,30 @@
         <br>
         <button type="submit">Create</button>
     </form>
-
+<hr>
     <h1>Products List</h1>
+    <form action="" method="get">
+        <label>Select Your Filter:</label><br><br>
+        
+        <input type="checkbox" id="electronics" name="filter" value="Electronics">
+        <label for="electronics">Electronics</label><br>
+        
+        <input type="checkbox" id="clothes" name="filter" value="Clothes">
+        <label for="clothes">Clothes</label><br>
+        
+        <input type="checkbox" id="furniture" name="filter" value="Furniture">
+        <label for="furniture">Furniture</label><br>
+        
+        <input type="checkbox" id="accessories" name="filter" value="Accessories">
+        <label for="accessories">Accessories</label><br>
+        
+        <input type="checkbox" id="books" name="filter" value="Books">
+        <label for="books">Books</label><br><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+    
+    <hr>
     {{range .Products}}
         <a href="http://127.0.0.1:8080/products/{{.ID}}">{{.Name}}</a>
         <ul>
