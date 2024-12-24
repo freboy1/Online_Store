@@ -62,6 +62,7 @@
     {{range .Products}}
         <a href="http://127.0.0.1:8080/products/{{.ID}}">{{.Name}}</a>
         <ul>
+            <li>Category: {{.Category}}</li>
             <li>{{.Description}}</li>
             <li>Price: {{.Price}}</li>
             <li>Discount: {{.Discount}}</li>
