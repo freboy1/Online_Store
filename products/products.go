@@ -19,9 +19,12 @@ func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Clien
 	if r.Method == http.MethodGet {
 		r.ParseForm()
 		filters := r.Form["filter"]
+		sort, _ := strconv.Atoi(r.FormValue("sort"))
 		if len(filters) != 0 {
 			filter := bson.M{"category": bson.M{"$in": filters}}
-			pageData.Products = GetProducts(client, database, collection, filter, bson.D{})
+			pageData.Products = GetProducts(client, database, collection, filter, bson.D{{"price", sort}})
+		} else if sort != 0 {
+			pageData.Products = GetProducts(client, database, collection, bson.M{}, bson.D{{"price", sort}})
 		}
 		tmpl, err := template.ParseFiles("templates/products.html")
 		if err != nil {
