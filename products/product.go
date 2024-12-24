@@ -17,7 +17,7 @@ func Product(w http.ResponseWriter, r *http.Request, client *mongo.Client, datab
 	id, _ := strconv.ParseInt(idStr, 10, 64)
 	var pageData PageData
 
-	product := GetProducts(client, database, collection, bson.D{{"id", id}})
+	product := GetProducts(client, database, collection, bson.M{"id": id}, bson.D{})
 	pageData.Products = product
 	pageData.Error = ""
 	
