@@ -4,6 +4,7 @@ import (
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"net/http"
 	"fmt"
 	"strconv"
@@ -13,12 +14,15 @@ import (
 
 func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Client, database, collection string) {
 	var pageData PageData
-	products := GetProducts(client, database, collection, bson.D{})
+	products := GetProducts(client, database, collection, bson.M{}, bson.D{})
 	pageData.Products = products
 	if r.Method == http.MethodGet {
 		r.ParseForm()
 		filters := r.Form["filter"]
-		
+		if len(filters) != 0 {
+			filter := bson.M{"category": bson.M{"$in": filters}}
+			pageData.Products = GetProducts(client, database, collection, filter, bson.D{})
+		}
 		tmpl, err := template.ParseFiles("templates/products.html")
 		if err != nil {
 			pageData.Error = "Error with template"
@@ -76,18 +80,27 @@ func checkProduct(name, description, priceStr, discountStr, quantityStr string) 
 	product.Quantity = quantity
 	return product, nil
 }
-func GetProducts(client *mongo.Client, database, collection string, filter bson.D)  []ProductModel {
-	coll := client.Database(database).Collection(collection)
-	cursor, err := coll.Find(context.TODO(), filter)
-	if err != nil {
-		panic(err)
-	}
-	var bsonProducts []ProductModel
-	if err = cursor.All(context.TODO(), &bsonProducts); err != nil {
-		panic(err)
-	}
-	return bsonProducts
+func GetProducts(client *mongo.Client, database, collection string, filter bson.M, sorting bson.D) []ProductModel {
+    // Access the collection from the specified database
+    coll := client.Database(database).Collection(collection)
+
+    // Define find options with sorting
+    findOptions := options.Find().SetSort(sorting)
+
+    // Fetch documents from the collection using the filter and find options
+    cursor, err := coll.Find(context.TODO(), filter, findOptions)
+    if err != nil {
+        panic(err) // Handle error appropriately in production code
+    }
+
+    var products []ProductModel
+    if err := cursor.All(context.TODO(), &products); err != nil {
+        panic(err) // Handle error appropriately in production code
+    }
+
+    return products
 }
+
 func insertOne (client *mongo.Client, ctx context.Context, dataBase, col string, product ProductModel) (*mongo.InsertOneResult, error) {
 
     // select database and collection ith Client.Database method 
