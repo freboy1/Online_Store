@@ -44,7 +44,11 @@ func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Clien
 		} else {
 			pageData.Pages = GeneratePages((lengthProducts / 3) + 1)
 		}
-		pageData.Products = products[(page*3)-3:page*3]
+		if page*3 > lengthProducts {
+			pageData.Products = products[(page*3)-3:]
+		} else {
+			pageData.Products = products[(page*3)-3:page*3]
+		}
 		tmpl, err := template.ParseFiles("templates/products.html")
 		if err != nil {
 			pageData.Error = "Error with template"
