@@ -77,12 +77,9 @@
     <hr>
 <div>
     <h3>Pagination</h3>
-    <button onclick="addPageParameter(1)">Page 1</button>
-    <button onclick="addPageParameter(2)">Page 2</button>
-    <button onclick="addPageParameter(3)">Page 3</button>
-    <button onclick="addPageParameter(4)">Page 4</button>
-    <button onclick="addPageParameter(5)">Page 5</button>
-    <button onclick="addPageParameter(6)">Page 6</button>
+    {{range .Pages}}
+    <button onclick="addPageParameter('{{.}}')">Page {{.}}</button>
+    {{end}}
 </div>
 </body>
 </html>

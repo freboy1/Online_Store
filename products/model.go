@@ -12,5 +12,6 @@ type ProductModel struct {
 
 type PageData struct {
 	Products []ProductModel
+	Pages	[]int
 	Error    string
 }

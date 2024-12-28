@@ -38,6 +38,12 @@ func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Clien
 		} else if sort != 0 {
 			products = GetProducts(client, database, collection, bson.M{}, bson.D{{"price", sort}})
 		}
+		lengthProducts := len(products)
+		if lengthProducts % 3 == 0 {
+			pageData.Pages = GeneratePages(lengthProducts / 3)
+		} else {
+			pageData.Pages = GeneratePages((lengthProducts / 3) + 1)
+		}
 		pageData.Products = products[(page*3)-3:page*3]
 		tmpl, err := template.ParseFiles("templates/products.html")
 		if err != nil {
@@ -161,4 +167,12 @@ func updateOne(client *mongo.Client, ctx context.Context, dataBase, col string, 
 
 	fmt.Printf("Successfully updated %d product(s)\n", result.ModifiedCount)
 	return nil
+}
+
+func GeneratePages(n int) []int {
+    pages := make([]int, n)
+    for i := 0; i < n; i++ {
+        pages[i] = i + 1
+    }
+    return pages
 }
