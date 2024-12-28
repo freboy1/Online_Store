@@ -18,14 +18,27 @@ func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Clien
 	pageData.Products = products
 	if r.Method == http.MethodGet {
 		r.ParseForm()
+		var page int
+		pageStr := r.URL.Query().Get("page")
+		if pageStr != "" {
+			pageValue, err := strconv.Atoi(pageStr)
+			if err != nil {
+				pageData.Error = "Invalid pagination"
+			} else {
+				page = pageValue
+			}
+		} else {
+			page = 1
+		}
 		filters := r.Form["filter"]
 		sort, _ := strconv.Atoi(r.FormValue("sort"))
 		if len(filters) != 0 {
 			filter := bson.M{"category": bson.M{"$in": filters}}
-			pageData.Products = GetProducts(client, database, collection, filter, bson.D{{"price", sort}})
+			products = GetProducts(client, database, collection, filter, bson.D{{"price", sort}})
 		} else if sort != 0 {
-			pageData.Products = GetProducts(client, database, collection, bson.M{}, bson.D{{"price", sort}})
+			products = GetProducts(client, database, collection, bson.M{}, bson.D{{"price", sort}})
 		}
+		pageData.Products = products[(page*3)-3:page*3]
 		tmpl, err := template.ParseFiles("templates/products.html")
 		if err != nil {
 			pageData.Error = "Error with template"
