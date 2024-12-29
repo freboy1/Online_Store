@@ -1,2 +1,9 @@
 {"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":0,"time":"2024-12-29T14:13:39+05:00","timestamp":"2024-12-29T14:13:39+05:00","user_id":"1"}
 {"Page Pagination":1,"action":"get Products","filter":["Clothes","Accessories"],"level":"info","msg":"User action logged","page":"produtcs","sort":1,"time":"2024-12-29T14:13:58+05:00","timestamp":"2024-12-29T14:13:58+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":["Clothes","Accessories"],"level":"info","msg":"User action logged","page":"produtcs","sort":1,"time":"2024-12-29T14:18:39+05:00","timestamp":"2024-12-29T14:18:39+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":0,"time":"2024-12-29T14:18:57+05:00","timestamp":"2024-12-29T14:18:57+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":0,"time":"2024-12-29T14:19:30+05:00","timestamp":"2024-12-29T14:19:30+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":["Books"],"level":"info","msg":"User action logged","page":"produtcs","sort":1,"time":"2024-12-29T14:19:39+05:00","timestamp":"2024-12-29T14:19:39+05:00","user_id":"1"}
+{"action":"Get Product","level":"info","msg":"User action logged","page":"10","time":"2024-12-29T14:19:51+05:00","timestamp":"2024-12-29T14:19:51+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":0,"time":"2024-12-29T14:21:05+05:00","timestamp":"2024-12-29T14:21:05+05:00","user_id":"1"}
+{"action":"Wireless Earbuds","level":"info","msg":"User action logged","page":"1","time":"2024-12-29T14:21:12+05:00","timestamp":"2024-12-29T14:21:12+05:00","user_id":"1"}

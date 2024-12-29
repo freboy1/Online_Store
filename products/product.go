@@ -10,6 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"github.com/sirupsen/logrus"
+	"onlinestore/logger"
 )
 
 func Product(w http.ResponseWriter, r *http.Request, client *mongo.Client, database, collection string, log *logrus.Logger) {
@@ -28,6 +29,7 @@ func Product(w http.ResponseWriter, r *http.Request, client *mongo.Client, datab
 	}
 
 	if r.Method == http.MethodGet {
+		logger.LogUserAction(log, product[0].Name, "1", idStr, map[string]interface{}{})
 		tmpl.Execute(w, pageData)
 	} else if r.Method == http.MethodPost {
 		if err := r.ParseForm(); err != nil {
