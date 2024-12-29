@@ -10,9 +10,11 @@ import (
 	"strconv"
 	"html/template"
 	"time"
+	"github.com/sirupsen/logrus"
+	"onlinestore/logger"
 )
 
-func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Client, database, collection string) {
+func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Client, database, collection string, log *logrus.Logger) {
 	var pageData PageData
 	products := GetProducts(client, database, collection, bson.M{}, bson.D{})
 	pageData.Products = products
@@ -53,6 +55,7 @@ func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Clien
 		if err != nil {
 			pageData.Error = "Error with template"
 		}
+		logger.LogUserAction(log, "get Products", "1", "produtcs", map[string]interface{}{"filter": filters, "sort": sort, "Page Pagination": page})
 		tmpl.Execute(w, pageData)
 	} else if r.Method == http.MethodPost {
 		if err := r.ParseForm(); err != nil {

@@ -10,6 +10,9 @@ import (
 	"onlinestore/products"
 	"github.com/gorilla/mux"
 	"onlinestore/auth"
+	"os"
+	"github.com/sirupsen/logrus"
+
 )
 
 type GetMessage struct {
@@ -59,6 +62,16 @@ func home(w http.ResponseWriter, r *http.Request) {
 
 
 func main() {
+	logs := logrus.New()
+	logs.SetFormatter(&logrus.JSONFormatter{})
+	
+	// Log output to a file
+	file, err := os.OpenFile("user_actions.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	if err != nil {
+		logs.Fatalf("Failed to open log file: %v", err)
+	}
+	defer file.Close()
+	logs.SetOutput(file)
 	uri := "mongodb://localhost:27017"
 	client, dbErr := db.ConnectMongoDB(uri)
 	if dbErr != nil {
@@ -69,14 +82,14 @@ func main() {
 	mux := mux.NewRouter()
 	mux.HandleFunc("/", home)
 	mux.HandleFunc("/products", func(w http.ResponseWriter, r *http.Request) {
-        products.ProductsHandler(w, r, client, database, collection)
+        products.ProductsHandler(w, r, client, database, collection, logs)
     })
 	mux.HandleFunc("/products/{id:[0-9]+}", func(w http.ResponseWriter, r *http.Request) {
-        products.Product(w, r, client, database, collection)
+        products.Product(w, r, client, database, collection, logs)
     })
 	mux.HandleFunc("/login", login.LoginHandler).Methods("POST")
 	mux.HandleFunc("/protected", login.ProtectedHandler).Methods("GET")
 	log.Println("Запуск веб-сервера на http://127.0.0.1:8080")
-	err := http.ListenAndServe(":8080", mux)
+	err = http.ListenAndServe(":8080", mux)
 	log.Fatal(err)
 }

@@ -9,9 +9,10 @@ import (
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"github.com/sirupsen/logrus"
 )
 
-func Product(w http.ResponseWriter, r *http.Request, client *mongo.Client, database, collection string) {
+func Product(w http.ResponseWriter, r *http.Request, client *mongo.Client, database, collection string, log *logrus.Logger) {
 	vars := mux.Vars(r)
 	idStr := vars["id"] 
 	id, _ := strconv.ParseInt(idStr, 10, 64)

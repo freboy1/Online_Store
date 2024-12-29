@@ -1,0 +1,2 @@
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":0,"time":"2024-12-29T14:13:39+05:00","timestamp":"2024-12-29T14:13:39+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":["Clothes","Accessories"],"level":"info","msg":"User action logged","page":"produtcs","sort":1,"time":"2024-12-29T14:13:58+05:00","timestamp":"2024-12-29T14:13:58+05:00","user_id":"1"}
