@@ -20,42 +20,23 @@ func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Clien
 	pageData.Products = products
 	if r.Method == http.MethodGet {
 		r.ParseForm()
-		var page int
-		pageStr := r.URL.Query().Get("page")
-		if pageStr != "" {
-			pageValue, err := strconv.Atoi(pageStr)
-			if err != nil {
-				pageData.Error = "Invalid pagination"
-			} else {
-				page = pageValue
-			}
-		} else {
-			page = 1
+		page, err := getPage(r.URL.Query().Get("page"))
+		if err != nil || page == 0 {
+			pageData.Error = "Pagination must be numbers"
 		}
-		filters := r.Form["filter"]
-		sort, _ := strconv.Atoi(r.FormValue("sort"))
-		if len(filters) != 0 {
-			filter := bson.M{"category": bson.M{"$in": filters}}
-			products = GetProducts(client, database, collection, filter, bson.D{{"price", sort}})
-		} else if sort != 0 {
-			products = GetProducts(client, database, collection, bson.M{}, bson.D{{"price", sort}})
-		}
-		lengthProducts := len(products)
-		if lengthProducts % 3 == 0 {
-			pageData.Pages = GeneratePages(lengthProducts / 3)
-		} else {
-			pageData.Pages = GeneratePages((lengthProducts / 3) + 1)
-		}
-		if page*3 > lengthProducts {
-			pageData.Products = products[(page*3)-3:]
-		} else {
-			pageData.Products = products[(page*3)-3:page*3]
-		}
-		tmpl, err := template.ParseFiles("templates/products.html")
+		products, err = filterSortProducts(products, client, database, collection, r.Form["filter"], r.FormValue("sort"))
 		if err != nil {
+			pageData.Error = "Mistake with sort"
+		}
+		pageData.Pages, pageData.Products, err = Paginate(products, 3, page)
+		if err != nil {
+			pageData.Error = "Wrong number of pagination"
+		}
+		tmpl, errTempl := template.ParseFiles("templates/products.html")
+		if errTempl != nil {
 			pageData.Error = "Error with template"
 		}
-		logger.LogUserAction(log, "get Products", "1", "produtcs", map[string]interface{}{"filter": filters, "sort": sort, "Page Pagination": page})
+		logger.LogUserAction(log, "get Products", "1", "produtcs", map[string]interface{}{"filter": r.Form["filter"], "sort": r.FormValue("sort"), "Page Pagination": page})
 		tmpl.Execute(w, pageData)
 	} else if r.Method == http.MethodPost {
 		if err := r.ParseForm(); err != nil {
@@ -87,6 +68,61 @@ func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Clien
 	} 
 }
 
+func getPage(pageStr string) (int, error) {
+	var page int
+	if pageStr != "" {
+		pageValue, err := strconv.Atoi(pageStr)
+		if err != nil {
+			return page, fmt.Errorf("Pagination must be numbers")
+		} else {
+			page = pageValue
+		}
+	} else {
+		page = 1
+	}
+	return page, nil
+}
+
+
+
+func Paginate(products []ProductModel, step, page int) ([]int, []ProductModel, error) {
+	lengthProducts := len(products)
+	pages := make([]int, 0)
+	if lengthProducts % 3 == 0 {
+		pages = GeneratePages(lengthProducts / 3)
+	} else {
+		pages = GeneratePages((lengthProducts / 3) + 1)
+	}
+
+	start := (page * 3) - 3
+	end := page * 3
+
+	if start < 0 || start >= len(products) {
+		return pages, products, fmt.Errorf("Invalid pagination")
+	}
+	if end > len(products) {
+		end = len(products)
+	}
+
+	return pages, products[start:end], nil
+}
+
+
+func filterSortProducts(products []ProductModel, client *mongo.Client, database, collection string, filters []string, sortStr string) ([]ProductModel, error) {
+	sort, err := strconv.Atoi(sortStr)
+	if sortStr != "" {
+		if err != nil {
+			return products, err
+		}
+	}
+	if len(filters) != 0 {
+		filter := bson.M{"category": bson.M{"$in": filters}}
+		products = GetProducts(client, database, collection, filter, bson.D{{"price", sort}})
+	} else if sort != 0 {
+		products = GetProducts(client, database, collection, bson.M{}, bson.D{{"price", sort}})
+	}
+	return products, nil
+}
 func checkProduct(name, description, priceStr, discountStr, quantityStr string) (ProductModel, error) {
 	product := ProductModel{
 		Name: name,
