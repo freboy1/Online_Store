@@ -12,7 +12,8 @@ import (
 	"onlinestore/auth"
 	"os"
 	"github.com/sirupsen/logrus"
-
+	"golang.org/x/time/rate"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type GetMessage struct {
@@ -59,7 +60,14 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 
 
-
+var limiter = rate.NewLimiter(1, 1)
+func productsLimiter(w http.ResponseWriter, r *http.Request, client *mongo.Client, database, collection string, logs *logrus.Logger) {
+	if !limiter.Allow() {
+		http.Error(w, "Rate limit exceeded", http.StatusTooManyRequests)
+		return
+	}
+	products.ProductsHandler(w, r, client, database, collection, logs)
+}
 
 func main() {
 	logs := logrus.New()
@@ -82,8 +90,9 @@ func main() {
 	mux := mux.NewRouter()
 	mux.HandleFunc("/", home)
 	mux.HandleFunc("/products", func(w http.ResponseWriter, r *http.Request) {
-        products.ProductsHandler(w, r, client, database, collection, logs)
-    })
+		productsLimiter(w, r, client, database, collection, logs)
+	})
+
 	mux.HandleFunc("/products/{id:[0-9]+}", func(w http.ResponseWriter, r *http.Request) {
         products.Product(w, r, client, database, collection, logs)
     })
