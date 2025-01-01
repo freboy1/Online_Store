@@ -11,6 +11,6 @@ func RegisterRoutes(router *mux.Router, client *mongo.Client, database, collecti
 		AdminPanelHandler(w, r)
 	})
 	router.HandleFunc("/admin/send-email", func(w http.ResponseWriter, r *http.Request) {
-		SendEmailHandler(w, r)
+		SendEmailHandler(w, r, client, database, collection)
 	})
 }
