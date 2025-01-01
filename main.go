@@ -14,6 +14,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"golang.org/x/time/rate"
 	"go.mongodb.org/mongo-driver/mongo"
+	"onlinestore/admin"
 )
 
 type GetMessage struct {
@@ -96,6 +97,9 @@ func main() {
 	mux.HandleFunc("/products/{id:[0-9]+}", func(w http.ResponseWriter, r *http.Request) {
         products.Product(w, r, client, database, collection, logs)
     })
+
+	admin.RegisterRoutes(mux, client, database, "Users")
+
 	mux.HandleFunc("/login", login.LoginHandler).Methods("POST")
 	mux.HandleFunc("/protected", login.ProtectedHandler).Methods("GET")
 	log.Println("Запуск веб-сервера на http://127.0.0.1:8080")
