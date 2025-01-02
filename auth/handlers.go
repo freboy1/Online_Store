@@ -1,13 +1,14 @@
 package auth
 
 import (
-	"fmt"
-	"net/http"
-	"time"
 	"html/template"
+	"net/http"
+	"onlinestore/admin"
+	"onlinestore/models"
+	"time"
+	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
-	"onlinestore/admin"
 )
 
 func LoginHandler(w http.ResponseWriter, r *http.Request, client *mongo.Client, database, collection string) {
@@ -19,9 +20,9 @@ func LoginHandler(w http.ResponseWriter, r *http.Request, client *mongo.Client, 
     r.ParseForm()
     email := r.FormValue("email")
     password := r.FormValue("password")
-
-    if ExistUser(client, database, collection, email, password) {
-        tokenString, err := CreateToken(email)
+	user, err := ExistUser(client, database, collection, email, password)
+    if  err == nil{
+        tokenString, err := CreateToken(user.Email, user.Role)
         if err != nil {
             http.Error(w, "Error creating token", http.StatusInternalServerError)
             return
@@ -48,29 +49,10 @@ func LoginGet(w http.ResponseWriter, r *http.Request) {
 }
 
 
-
-func ProtectedHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
-	cookie, err := r.Cookie("auth_token")
-	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
-		fmt.Fprint(w, "Unauthorized: Missing or invalid token")
-		return
-	}
-
-	err = verifyToken(cookie.Value)
-	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
-		fmt.Fprint(w, "Unauthorized: Invalid token")
-		return
-	}
-
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprint(w, "Welcome to the protected area")
-}
-
-func ExistUser(client *mongo.Client, database, collection, email, password string) bool {
+func ExistUser(client *mongo.Client, database, collection, email, password string) (models.User, error) {
 	user := admin.GetUsers(client, database, collection, bson.M{"email": email, "password": password}, bson.D{})
-	return len(user) != 0
+	if len(user) != 0 {
+		return user[0], nil
+	}
+	return models.User{}, fmt.Errorf("NO user")
 }
