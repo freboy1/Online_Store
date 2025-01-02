@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+	"html/template"
 )
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
@@ -46,6 +47,12 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusUnauthorized)
 	fmt.Fprint(w, "Invalid credentials")
 }
+
+func LoginGet(w http.ResponseWriter, r *http.Request) {
+	tmpl, _ := template.ParseFiles("templates/login.html")
+	tmpl.Execute(w, map[string]interface{}{})
+}
+
 
 
 func ProtectedHandler(w http.ResponseWriter, r *http.Request) {
