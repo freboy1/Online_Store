@@ -1,17 +1,17 @@
 package admin
 
 import (
-	"net/http"
-	"html/template"
-	"onlinestore/auth"
 	"context"
+	"fmt"
+	"html/template"
+	"net/http"
+	"net/smtp"
+	"onlinestore/models"
+	"os"
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"net/smtp"
-	"os"
-	"github.com/joho/godotenv"
-	"fmt"
 )
 
 func AdminPanelHandler(w http.ResponseWriter, r *http.Request) {
@@ -41,7 +41,7 @@ func SendEmailHandler(w http.ResponseWriter, r *http.Request, client *mongo.Clie
 	}
 }
 
-func GetUsers(client *mongo.Client, database, collection string, filter bson.M, sorting bson.D) []auth.User {
+func GetUsers(client *mongo.Client, database, collection string, filter bson.M, sorting bson.D) []models.User {
     coll := client.Database(database).Collection(collection)
 
     findOptions := options.Find().SetSort(sorting)
@@ -51,7 +51,7 @@ func GetUsers(client *mongo.Client, database, collection string, filter bson.M, 
         panic(err)
     }
 
-    var users []auth.User
+    var users []models.User
     if err := cursor.All(context.TODO(), &users); err != nil {
         panic(err)
     }

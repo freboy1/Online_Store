@@ -47,3 +47,11 @@
 {"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-01T20:20:50+05:00","timestamp":"2025-01-01T20:20:50+05:00","user_id":"1"}
 {"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-01T20:55:48+05:00","timestamp":"2025-01-01T20:55:48+05:00","user_id":"1"}
 {"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-01T21:07:11+05:00","timestamp":"2025-01-01T21:07:11+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-01T23:23:10+05:00","timestamp":"2025-01-01T23:23:10+05:00","user_id":"1"}
+{"action":"Smartphone Stand","level":"info","msg":"User action logged","page":"2","time":"2025-01-01T23:23:16+05:00","timestamp":"2025-01-01T23:23:16+05:00","user_id":"1"}
+{"Page Pagination":3,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-01T23:23:20+05:00","timestamp":"2025-01-01T23:23:20+05:00","user_id":"1"}
+{"Page Pagination":4,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-01T23:23:26+05:00","timestamp":"2025-01-01T23:23:26+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-01T23:23:29+05:00","timestamp":"2025-01-01T23:23:29+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-02T15:49:46+05:00","timestamp":"2025-01-02T15:49:46+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-02T16:21:24+05:00","timestamp":"2025-01-02T16:21:24+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-02T18:40:59+05:00","timestamp":"2025-01-02T18:40:59+05:00","user_id":"1"}
