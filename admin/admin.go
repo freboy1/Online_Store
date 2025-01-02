@@ -12,6 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"github.com/google/uuid"
 )
 
 func AdminPanelHandler(w http.ResponseWriter, r *http.Request) {
@@ -57,6 +58,13 @@ func GetUsers(client *mongo.Client, database, collection string, filter bson.M, 
     }
 
     return users
+}
+
+func CreateUser(client *mongo.Client, ctx context.Context, dataBase, col string, user models.User) (*mongo.InsertOneResult, error) {
+	collection := client.Database(dataBase).Collection(col)
+	user.Id = uuid.New() 
+    result, err := collection.InsertOne(ctx, user)
+    return result, err
 }
 
 func sendEmail(subject, message string, recipient string) error {
