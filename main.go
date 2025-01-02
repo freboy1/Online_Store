@@ -67,6 +67,7 @@ func productsLimiter(w http.ResponseWriter, r *http.Request, client *mongo.Clien
 		http.Error(w, "Rate limit exceeded", http.StatusTooManyRequests)
 		return
 	}
+	ProtectedHandler(w, r)
 	products.ProductsHandler(w, r, client, database, collection, logs)
 }
 
@@ -104,3 +105,20 @@ func main() {
 	err = http.ListenAndServe(":8080", mux)
 	log.Fatal(err)
 }
+
+
+func ProtectedHandler(w http.ResponseWriter, r *http.Request) {
+	cookie, err := r.Cookie("auth_token")
+	if err != nil {
+		http.Redirect(w, r, "http://127.0.0.1:8080/login", http.StatusSeeOther)
+		return
+	}
+
+	err = auth.VerifyToken(cookie.Value)
+	if err != nil {
+		http.Redirect(w, r, "http://127.0.0.1:8080/login", http.StatusSeeOther)
+		return
+	}
+
+}
+
