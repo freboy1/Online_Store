@@ -11,4 +11,7 @@ func RegisterRoutes(router *mux.Router, client *mongo.Client, database, collecti
 	router.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
         LoginHandler(w, r, client, database, collection)
     })
+	router.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
+        RegisterHandler(w, r, client, database, collection)
+    })
 }

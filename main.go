@@ -9,12 +9,12 @@ import (
 	"onlinestore/db"
 	"onlinestore/products"
 	"github.com/gorilla/mux"
-	"onlinestore/auth"
 	"os"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/time/rate"
 	"go.mongodb.org/mongo-driver/mongo"
 	"onlinestore/admin"
+	"onlinestore/auth"
 )
 
 type GetMessage struct {
