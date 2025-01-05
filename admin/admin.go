@@ -13,6 +13,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"github.com/google/uuid"
+	"io"
+	"encoding/base64"
 )
 
 func AdminPanelHandler(w http.ResponseWriter, r *http.Request) {
@@ -27,12 +29,38 @@ func SendEmailHandler(w http.ResponseWriter, r *http.Request, client *mongo.Clie
 		tmpl, _ := template.ParseFiles("templates/admin-send.html")
 		tmpl.Execute(w, map[string]interface{}{})
 	} else if r.Method == http.MethodPost {
-		r.ParseForm()
+		err := r.ParseMultipartForm(10 << 20) // Limit file size to 10 MB
+		if err != nil {
+			http.Error(w, "Unable to parse form", http.StatusBadRequest)
+			return
+		}
+		file, header, err := r.FormFile("attachment")
+		if err != nil && err != http.ErrMissingFile {
+			http.Error(w, "Error processing file", http.StatusBadRequest)
+			return
+		}
+		var photoData []byte
+		if file != nil {
+			defer file.Close()
+			photoData, err = io.ReadAll(file)
+			if err != nil {
+				http.Error(w, "Error reading file", http.StatusInternalServerError)
+				return
+			}
+		}
+
+
 		users := GetUsers(client, database, collection, bson.M{}, bson.D{})
 		for _, user := range users {
-			err := SendEmail(r.FormValue("subject"), r.FormValue("message"), user.Email)
-			if err != nil {
-				http.Error(w, "Failed to send email: "+err.Error(), http.StatusInternalServerError)
+			emailErr := sendEmailImage(
+				r.FormValue("subject"),    // Subject from the form
+				r.FormValue("message"),    // Message from the form
+				user.Email,                // User email from database
+				header.Filename,           // Attachment filename
+				photoData,                 // Photo data
+			)
+			if emailErr != nil {
+				http.Error(w, "Failed to send email: "+emailErr.Error(), http.StatusInternalServerError)
 				return
 			}
 
@@ -83,4 +111,31 @@ func SendEmail(subject, message string, recipient string) error {
 	auth := smtp.PlainAuth("", from, password, smtpHost)
 
 	return smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{recipient}, msg)
+}
+
+
+func sendEmailImage(subject, message, recipient, filename string, photoData []byte) error {
+	err := godotenv.Load()
+	if err != nil {
+		return fmt.Errorf("Error loading .env file")
+	}
+
+	from := os.Getenv("EMAIL")
+	password := os.Getenv("EMAIL_PASSWORD")
+	smtpHost := os.Getenv("SMTP_HOST")
+	smtpPort := os.Getenv("SMTP_PORT")
+	encodedPhoto := base64.StdEncoding.EncodeToString(photoData)
+
+    // Create the MIME email
+    email := fmt.Sprintf(
+        "From: %s\nTo: %s\nSubject: %s\nMIME-Version: 1.0\nContent-Type: multipart/mixed; boundary=boundary\n\n"+
+            "--boundary\nContent-Type: text/plain; charset=utf-8\n\n%s\n\n"+
+            "--boundary\nContent-Type: image/jpeg\nContent-Transfer-Encoding: base64\nContent-Disposition: attachment; filename=\"%s\"\n\n%s\n--boundary--",
+        from, recipient, subject, message, filename, encodedPhoto,
+    )
+
+    // Send the email
+    auth := smtp.PlainAuth("", from, password, smtpHost)
+	return smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{recipient}, []byte(email))
+
 }
