@@ -30,7 +30,7 @@ func SendEmailHandler(w http.ResponseWriter, r *http.Request, client *mongo.Clie
 		r.ParseForm()
 		users := GetUsers(client, database, collection, bson.M{}, bson.D{})
 		for _, user := range users {
-			err := sendEmail(r.FormValue("subject"), r.FormValue("message"), user.Email)
+			err := SendEmail(r.FormValue("subject"), r.FormValue("message"), user.Email)
 			if err != nil {
 				http.Error(w, "Failed to send email: "+err.Error(), http.StatusInternalServerError)
 				return
@@ -67,7 +67,7 @@ func CreateUser(client *mongo.Client, ctx context.Context, dataBase, col string,
     return result, err
 }
 
-func sendEmail(subject, message string, recipient string) error {
+func SendEmail(subject, message string, recipient string) error {
 	err := godotenv.Load()
 	if err != nil {
 		return fmt.Errorf("Error loading .env file")

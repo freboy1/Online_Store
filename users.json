@@ -1,0 +1,167 @@
+[
+    {
+        "id": "e79b4f8c-7dc7-4e7e-b89c-001a96b1259f",
+        "username": "john_doe",
+        "email": "john.doe@astanait.edu.kz",
+        "password": "UnifiedPassword123!",
+        "role": "user",
+        "code": "234567",
+        "verified": "false",
+        "cash": 1500,
+        "products": []
+    },
+    {
+        "id": "d54012e3-1e94-4b44-98c5-456392a84599",
+        "username": "jane_doe",
+        "email": "jane.doe@astanait.edu.kz",
+        "password": "UnifiedPassword123!",
+        "role": "user",
+        "code": "874512",
+        "verified": "false",
+        "cash": 2000,
+        "products": []
+    },
+    {
+        "id": "98d22d3b-0dc3-45c8-94e3-d110df34cfa8",
+        "username": "alex_smith",
+        "email": "alex.smith@astanait.edu.kz",
+        "password": "UnifiedPassword123!",
+        "role": "user",
+        "code": "129834",
+        "verified": "false",
+        "cash": 1200,
+        "products": []
+    },
+    {
+        "id": "ab567c1e-5e27-4528-8089-f5e91e9c2e92",
+        "username": "emily_jones",
+        "email": "emily.jones@astanait.edu.kz",
+        "password": "UnifiedPassword123!",
+        "role": "user",
+        "code": "982341",
+        "verified": "false",
+        "cash": 2500,
+        "products": []
+    },
+    {
+        "id": "ca65498e-3f92-4d48-a0d3-c2e12ae197a3",
+        "username": "michael_johnson",
+        "email": "michael.johnson@astanait.edu.kz",
+        "password": "UnifiedPassword123!",
+        "role": "user",
+        "code": "657823",
+        "verified": "false",
+        "cash": 1800,
+        "products": []
+    },
+    {
+        "id": "feb987d3-19d1-46d3-b8d7-84cba74a51c4",
+        "username": "laura_clark",
+        "email": "laura.clark@astanait.edu.kz",
+        "password": "UnifiedPassword123!",
+        "role": "user",
+        "code": "473829",
+        "verified": "false",
+        "cash": 1600,
+        "products": []
+    },
+    {
+        "id": "419fbe12-56da-46d5-8f23-b79d43afc5f2",
+        "username": "william_lee",
+        "email": "william.lee@astanait.edu.kz",
+        "password": "UnifiedPassword123!",
+        "role": "user",
+        "code": "385729",
+        "verified": "false",
+        "cash": 1000,
+        "products": []
+    },
+    {
+        "id": "56c14a98-9d2a-4c89-8cd9-7d2f481ec134",
+        "username": "sophia_martin",
+        "email": "sophia.martin@astanait.edu.kz",
+        "password": "UnifiedPassword123!",
+        "role": "user",
+        "code": "283947",
+        "verified": "false",
+        "cash": 1400,
+        "products": []
+    },
+    {
+        "id": "1e942f7c-d456-4b23-a9e9-b56d9814cfa2",
+        "username": "oliver_brown",
+        "email": "oliver.brown@astanait.edu.kz",
+        "password": "UnifiedPassword123!",
+        "role": "user",
+        "code": "583647",
+        "verified": "false",
+        "cash": 2200,
+        "products": []
+    },
+    {
+        "id": "2c15419d-79a2-453c-8f12-ae981432c5f2",
+        "username": "isabella_davis",
+        "email": "isabella.davis@astanait.edu.kz",
+        "password": "UnifiedPassword123!",
+        "role": "user",
+        "code": "283947",
+        "verified": "false",
+        "cash": 1900,
+        "products": []
+    },
+    {
+        "id": "f7c894a5-8d1f-4b45-9e89-7a2f5613e19c",
+        "username": "james_taylor",
+        "email": "james.taylor@astanait.edu.kz",
+        "password": "UnifiedPassword123!",
+        "role": "user",
+        "code": "672839",
+        "verified": "false",
+        "cash": 1700,
+        "products": []
+    },
+    {
+        "id": "83fae8b6-9d41-4c32-8b1f-7f3e561af81d",
+        "username": "emma_hill",
+        "email": "emma.hill@astanait.edu.kz",
+        "password": "UnifiedPassword123!",
+        "role": "user",
+        "code": "293847",
+        "verified": "false",
+        "cash": 1500,
+        "products": []
+    },
+    {
+        "id": "7a3c951f-4f19-4a23-85f8-4f13e897a981",
+        "username": "benjamin_walker",
+        "email": "benjamin.walker@astanait.edu.kz",
+        "password": "UnifiedPassword123!",
+        "role": "user",
+        "code": "283946",
+        "verified": "false",
+        "cash": 2100,
+        "products": []
+    },
+    {
+        "id": "e92c14f8-9d7a-45f9-a9e8-7d2f81c13fa9",
+        "username": "lucy_white",
+        "email": "lucy.white@astanait.edu.kz",
+        "password": "UnifiedPassword123!",
+        "role": "user",
+        "code": "483729",
+        "verified": "false",
+        "cash": 1700,
+        "products": []
+    },
+    {
+        "id": "6a154e2c-8b1f-41d3-9a56-b21ef89c71da",
+        "username": "henry_scott",
+        "email": "henry.scott@astanait.edu.kz",
+        "password": "UnifiedPassword123!",
+        "role": "user",
+        "code": "374829",
+        "verified": "false",
+        "cash": 1300,
+        "products": []
+    }
+]
