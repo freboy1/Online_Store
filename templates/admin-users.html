@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+</head>
+<body>
+    <h1>Users</h1>
+<hr>
+{{range .}}
+    <a href="http://127.0.0.1:8080/user/{{.Id}}">{{.Username}}</a>
+    <ul>
+        <li>Email: {{.Email}}</li>
+        <li>Role: {{.Role}}</li>
+        <li>Cash: {{.Cash}}</li>
+        <li>Role: {{.Role}}</li>
+        <li>Products: 
+            <ul>
+                {{range .Products}}
+                    <li>{{.Name}} ({{.Price}})</li>
+                {{end}}
+            </ul>
+        </li>
+    </ul>
+    <br>
+{{end}}
+
+</body>
+</html>

@@ -139,3 +139,11 @@ func sendEmailImage(subject, message, recipient, filename string, photoData []by
 	return smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{recipient}, []byte(email))
 
 }
+
+func UsersHandler(w http.ResponseWriter, r *http.Request, client *mongo.Client, database, collection string) {
+	if r.Method == http.MethodGet {
+		users := GetUsers(client, database, collection, bson.M{}, bson.D{})
+		tmpl, _ := template.ParseFiles("templates/admin-users.html")
+		tmpl.Execute(w, users)
+	}
+}
