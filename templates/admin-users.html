@@ -6,6 +6,26 @@
     <title>Users</title>
 </head>
 <body>
+    <h1>Create User</h1>
+    <form action="/admin/users" method="post">
+        <label for="name">Enter User Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <label for="password">Enter Password:</label>
+        <input type="text" id="password" name="password" required>
+        <br>
+        <label for="email">Enter Email:</label>
+        <input type="text" id="email" name="email" required>
+        <br>
+        <label for="cash">Enter cash:</label>
+        <input type="text" id="cash" name="cash" required>
+        <br>
+        <label for="role">Enter role:</label>
+        <input type="text" id="role" name="role" required>
+        <br>
+        <button type="submit">Create</button>
+    </form>
+<hr>
     <h1>Users</h1>
 <hr>
 {{range .}}
@@ -14,7 +34,6 @@
         <li>Email: {{.Email}}</li>
         <li>Role: {{.Role}}</li>
         <li>Cash: {{.Cash}}</li>
-        <li>Role: {{.Role}}</li>
         <li>Products: 
             <ul>
                 {{range .Products}}

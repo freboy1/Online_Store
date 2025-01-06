@@ -2,19 +2,24 @@ package admin
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
 	"html/template"
+	"io"
+	"math/rand"
 	"net/http"
 	"net/smtp"
 	"onlinestore/models"
+	"onlinestore/products"
 	"os"
+	"strconv"
+	"time"
+
+	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"github.com/google/uuid"
-	"io"
-	"encoding/base64"
 )
 
 func AdminPanelHandler(w http.ResponseWriter, r *http.Request) {
@@ -141,9 +146,59 @@ func sendEmailImage(subject, message, recipient, filename string, photoData []by
 }
 
 func UsersHandler(w http.ResponseWriter, r *http.Request, client *mongo.Client, database, collection string) {
+	users := GetUsers(client, database, collection, bson.M{}, bson.D{})
 	if r.Method == http.MethodGet {
-		users := GetUsers(client, database, collection, bson.M{}, bson.D{})
 		tmpl, _ := template.ParseFiles("templates/admin-users.html")
 		tmpl.Execute(w, users)
+	} else if r.Method == http.MethodPost {
+		r.ParseForm()
+		name, email, password, cashStr, role := r.FormValue("name"), r.FormValue("email"), r.FormValue("password"), r.FormValue("cash"), r.FormValue("role")
+		cash, _ := strconv.Atoi(cashStr)
+		user := models.User{
+			Username: name,
+			Email: email,
+			Password: password,
+			Cash: cash,
+			Role: role,
+		}
+		result, err := insertUser(client, context.TODO(), database, collection, user)
+		if err != nil {
+			tmpl, _ := template.ParseFiles("templates/admin-users.html")
+			tmpl.Execute(w, users)
+			return
+
+		}
+	
+		fmt.Println("Inserted user with ID:", result.InsertedID)
+		http.Redirect(w, r, r.URL.Path, http.StatusSeeOther)
+		return
 	}
+}
+
+func insertUser (client *mongo.Client, ctx context.Context, dataBase, col string, user models.User) (*mongo.InsertOneResult, error) {
+
+    // select database and collection ith Client.Database method 
+    // and Database.Collection method
+    collection := client.Database(dataBase).Collection(col)
+	user.Id = uuid.New() 
+	user.Code = generateRandomCode(4)
+	user.Verified = "false"
+	user.Products = make([]products.ProductModel, 0)
+    // InsertOne accept two argument of type Context 
+    // and of empty interface   
+    result, err := collection.InsertOne(ctx, user)
+    return result, err
+}
+
+func generateRandomCode(length int) string {
+	if length <= 0 {
+		return ""
+	}
+
+	rand.Seed(time.Now().UnixNano())
+	code := ""
+	for i := 0; i < length; i++ {
+		code += fmt.Sprintf("%d", rand.Intn(10)) // Append a random digit (0-9)
+	}
+	return code
 }
