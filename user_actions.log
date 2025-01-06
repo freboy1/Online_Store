@@ -85,3 +85,6 @@
 {"Page Pagination":1,"action":"get Products","filter":["Clothes","Accessories"],"level":"info","msg":"User action logged","page":"produtcs","sort":"1","time":"2025-01-05T14:35:26+05:00","timestamp":"2025-01-05T14:35:26+05:00","user_id":"1"}
 {"Page Pagination":1,"action":"get Products","filter":["Clothes","Accessories"],"level":"info","msg":"User action logged","page":"produtcs","sort":"1","time":"2025-01-05T14:35:27+05:00","timestamp":"2025-01-05T14:35:27+05:00","user_id":"1"}
 {"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-05T22:30:04+05:00","timestamp":"2025-01-05T22:30:04+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-06T21:17:19+05:00","timestamp":"2025-01-06T21:17:19+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-06T21:17:25+05:00","timestamp":"2025-01-06T21:17:25+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-06T21:17:51+05:00","timestamp":"2025-01-06T21:17:51+05:00","user_id":"1"}

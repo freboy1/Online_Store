@@ -115,11 +115,16 @@ func filterSortProducts(products []ProductModel, client *mongo.Client, database,
 			return products, err
 		}
 	}
+	sorting := bson.D{{"price", sort}}
+	if sort == 0 {
+		sorting = bson.D{}
+	}
+
 	if len(filters) != 0 {
 		filter := bson.M{"category": bson.M{"$in": filters}}
-		products = GetProducts(client, database, collection, filter, bson.D{{"price", sort}})
+		products = GetProducts(client, database, collection, filter, sorting)
 	} else if sort != 0 {
-		products = GetProducts(client, database, collection, bson.M{}, bson.D{{"price", sort}})
+		products = GetProducts(client, database, collection, bson.M{}, sorting)
 	}
 	return products, nil
 }
