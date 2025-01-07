@@ -13,6 +13,9 @@ func RegisterRoutes(router *mux.Router, client *mongo.Client, database, collecti
 	router.HandleFunc("/admin/users", func(w http.ResponseWriter, r *http.Request) {
 		UsersHandler(w, r, client, database, collection)
 	})
+	router.HandleFunc("/admin/user/{id:[0-9a-fA-F-]+}", func(w http.ResponseWriter, r *http.Request) {
+		UserHandler(w, r, client, database, collection)
+	})
 	router.HandleFunc("/admin/send-email", func(w http.ResponseWriter, r *http.Request) {
 		SendEmailHandler(w, r, client, database, collection)
 	})

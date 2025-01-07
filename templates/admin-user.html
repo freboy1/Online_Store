@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User</title>
+    <style>
+        input, button {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Detail <a href="http://127.0.0.1:8080/admin/users">Go Back</a></h1>
+
+    <form action="" method="post">
+        <label for="name">Enter User Name:</label>
+        <input type="text" id="name" name="name" value="{{.Username}}">
+        <br>
+        <label for="email">Enter Email:</label>
+        <input type="text" id="email" name="email" value="{{.Email}}">
+        <br>
+        <label for="cash">Enter Cash:</label>
+        <input type="text" id="cash" name="cash" value="{{.Cash}}" required>
+        <br>
+        <label for="role">Enter Role:</label>
+        <input type="text" id="role" name="role" value="{{.Role}}" required>
+        <br>
+        <input type="text" id="action" name="action" hidden value="update">
+        <button type="submit">Update</button>
+    </form>
+
+    <form action="" method="post">
+        <input type="text" id="action" name="action" hidden value="delete">
+        <button type="submit">Delete</button>
+    </form>
+</body>
+</html>

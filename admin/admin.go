@@ -14,13 +14,16 @@ import (
 	"os"
 	"strconv"
 	"time"
-
+	"github.com/gorilla/mux"
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+
 )
+
 
 func AdminPanelHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
@@ -201,4 +204,31 @@ func generateRandomCode(length int) string {
 		code += fmt.Sprintf("%d", rand.Intn(10)) // Append a random digit (0-9)
 	}
 	return code
+}
+
+func UserHandler(w http.ResponseWriter, r *http.Request, client *mongo.Client, database, collection string) {
+	vars := mux.Vars(r)
+	id := vars["id"] 
+	parsedUUID, err := uuid.Parse(id)
+	if err != nil {
+		http.Error(w, "Invalid UUID format", http.StatusBadRequest)
+		fmt.Printf("Error parsing UUID: %v\n", err)
+		return
+	}
+	mongoUUID := primitive.Binary{
+		Subtype: 0x00,       // MongoDB UUID subtype
+		Data:    parsedUUID[:], // UUID as byte array
+	}
+
+	users := GetUsers(client, database, collection, bson.M{"id": mongoUUID}, bson.D{})
+	tmpl, _ := template.ParseFiles("templates/admin-user.html")
+	if len(users) == 0 {
+		http.Error(w, "User not found", http.StatusNotFound)
+		return
+	}
+	user := users[0]
+	if r.Method == http.MethodGet {
+
+		tmpl.Execute(w, user)
+	}
 }
