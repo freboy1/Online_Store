@@ -228,7 +228,80 @@ func UserHandler(w http.ResponseWriter, r *http.Request, client *mongo.Client, d
 	}
 	user := users[0]
 	if r.Method == http.MethodGet {
-
 		tmpl.Execute(w, user)
+	} else if r.Method == http.MethodPost {
+		if err := r.ParseForm(); err != nil {
+			tmpl.Execute(w, user)
+			return
+		}
+		action := r.FormValue("action")
+		switch action {
+		case "delete":
+			result, err := deleteOne(client, context.TODO(), database, collection, mongoUUID)
+			if err != nil {
+				tmpl, _ := template.ParseFiles("templates/admin-user.html")
+				tmpl.Execute(w, user)
+				return
+			}
+		
+			fmt.Println("Deleted succesfully:", result)
+			http.Redirect(w, r, "http://127.0.0.1:8080/admin/users", http.StatusSeeOther)
+			return
+		case "update":
+			if err := r.ParseForm(); err != nil {
+				tmpl.Execute(w, user)
+				return
+			}
+			name, email, cashStr, role := r.FormValue("name"), r.FormValue("email"), r.FormValue("cash"), r.FormValue("role")
+			cash, _ := strconv.Atoi(cashStr)
+			userNew := models.User{
+				Username: name,
+				Email: email,
+				Cash: cash,
+				Role: role,
+			}
+			err = updateOne(client, context.TODO(), database, collection, mongoUUID, userNew)
+			if err != nil {
+				tmpl, _ := template.ParseFiles("templates/admin-user.html")
+				tmpl.Execute(w, user)
+				return
+			}
+			
+			http.Redirect(w, r, "http://127.0.0.1:8080/admin/users", http.StatusSeeOther)
+			return
+		}
 	}
+}
+
+func deleteOne(client *mongo.Client, ctx context.Context, dataBase, col string, id primitive.Binary) (*mongo.DeleteResult, error) {
+	collection := client.Database(dataBase).Collection(col)
+	filter := bson.D{{"id", id}}
+	result, err := collection.DeleteOne(ctx, filter)
+	return result, err
+}
+
+func updateOne(client *mongo.Client, ctx context.Context, dataBase, col string, id primitive.Binary, User models.User) error {
+	collection := client.Database(dataBase).Collection(col)
+	filter := bson.D{{"id", id}}
+	update := bson.D{
+		{"$set", bson.D{
+			{"username", User.Username},
+			{"email", User.Email},
+			{"cash", User.Cash},
+			{"role", User.Role},
+		}},
+	}
+	result, err := collection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		fmt.Println("failed to update product")
+		return err
+	}
+
+	// Check if the product was found and updated
+	if result.MatchedCount == 0 {
+		return err
+	}
+
+	fmt.Printf("Successfully updated %d product(s)\n", result.ModifiedCount)
+	return nil
 }
