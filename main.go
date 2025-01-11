@@ -15,6 +15,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"onlinestore/admin"
 	"onlinestore/auth"
+	"github.com/joho/godotenv"
 )
 
 type GetMessage struct {
@@ -74,7 +75,11 @@ func productsLimiter(w http.ResponseWriter, r *http.Request, client *mongo.Clien
 func main() {
 	logs := logrus.New()
 	logs.SetFormatter(&logrus.JSONFormatter{})
-	
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Errorf("Error loading .env file")
+		return 
+	}
 	// Log output to a file
 	file, err := os.OpenFile("user_actions.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
@@ -82,10 +87,12 @@ func main() {
 	}
 	defer file.Close()
 	logs.SetOutput(file)
-	uri := "mongodb://localhost:27017"
+	uri := os.Getenv("MONGO_URI")
 	client, dbErr := db.ConnectMongoDB(uri)
 	if dbErr != nil {
 		log.Println("Could not connect to the MongoDB")
+	} else {
+		log.Println("Connected to the MongoDB")
 	}
 	database := "onlineStore"
 	collection := "AlisherExpress"
