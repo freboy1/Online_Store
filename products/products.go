@@ -173,12 +173,9 @@ func GetProducts(client *mongo.Client, database, collection string, filter bson.
 
 func insertOne (client *mongo.Client, ctx context.Context, dataBase, col string, product ProductModel) (*mongo.InsertOneResult, error) {
 
-    // select database and collection ith Client.Database method 
-    // and Database.Collection method
     collection := client.Database(dataBase).Collection(col)
 	product.ID = time.Now().Unix()
-    // InsertOne accept two argument of type Context 
-    // and of empty interface   
+ 
     result, err := collection.InsertOne(ctx, product)
     return result, err
 }
