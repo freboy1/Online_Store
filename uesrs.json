@@ -1,0 +1,57 @@
+[{
+  "_id": {
+    "$oid": "677c0a28871bb07f25150afd"
+  },
+  "id": {
+    "$binary": {
+      "base64": "Ps9THlTsRJi/ZiNr3t5Oqg==",
+      "subType": "00"
+    }
+  },
+  "username": "Alisher",
+  "email": "alisherdautov22@gmail.com",
+  "password": "123",
+  "role": "user",
+  "code": "6314",
+  "verified": "no",
+  "cash": 0,
+  "products": []
+},
+{
+  "_id": {
+    "$oid": "677c0a63871bb07f25150afe"
+  },
+  "id": {
+    "$binary": {
+      "base64": "Vfi6V7C5Sh6SmyIN1zH68Q==",
+      "subType": "00"
+    }
+  },
+  "username": "Alisher",
+  "email": "dautovalisher33@gmail.com",
+  "password": "123",
+  "role": "admin",
+  "code": "4326",
+  "verified": "no",
+  "cash": 0,
+  "products": []
+},
+{
+  "_id": {
+    "$oid": "677c167ff73e0f9b1873d2ed"
+  },
+  "id": {
+    "$binary": {
+      "base64": "++b0XKqvSYqC8/cV5ocF6Q==",
+      "subType": "00"
+    }
+  },
+  "username": "idk",
+  "email": "a.dautov@documentolog.com",
+  "password": "123",
+  "role": "President",
+  "code": "9490",
+  "verified": "false",
+  "cash": 10000000,
+  "products": []
+}]

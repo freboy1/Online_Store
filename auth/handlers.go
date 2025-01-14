@@ -16,46 +16,83 @@ import (
 )
 
 func LoginHandler(w http.ResponseWriter, r *http.Request, client *mongo.Client, database, collection string) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+	// Handle GET request to render login page
+	if r.Method == http.MethodGet {
+		tmpl, err := template.ParseFiles("templates/login.html")
+		if err != nil {
+			fmt.Println("Error parsing template:", err)
+			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			return
+		}
+		tmpl.Execute(w, map[string]interface{}{})
 		return
 	}
 
-	r.ParseForm()
-	email := r.FormValue("email")
-	password := r.FormValue("password")
-
-	user, err := ExistUser(client, database, collection, email, password)
-	if err == nil {
-		tokenString, err := CreateToken(user.Email, user.Password, user.Role)
+	// Handle POST request to process login
+	if r.Method == http.MethodPost {
+		// Parse form data
+		err := r.ParseForm()
 		if err != nil {
-			http.Error(w, "Error creating token", http.StatusInternalServerError)
+			fmt.Println("Error parsing form:", err)
+			http.Error(w, "Invalid form data", http.StatusBadRequest)
 			return
 		}
 
-		SetAuthCookie(w, tokenString)
-		http.Redirect(w, r, "http://127.0.0.1:8080/products", http.StatusSeeOther)
-		return
-	}
+		email := r.FormValue("email")
+		password := r.FormValue("password")
 
-	http.Redirect(w, r, "http://127.0.0.1:8080/login", http.StatusSeeOther)
+		// Log received credentials
+		fmt.Println("Received credentials - Email:", email, "Password:", password)
+
+		// Check if the user exists and credentials are correct
+		user, err := ExistUser(client, database, collection, email, password)
+		if err == nil {
+			// User authenticated successfully
+			fmt.Println("User authenticated:", user.Email)
+
+			// Generate JWT token
+			tokenString, err := CreateToken(user.Email, user.Password, user.Role)
+			if err != nil {
+				fmt.Println("Error creating token:", err)
+				http.Error(w, "Error creating token", http.StatusInternalServerError)
+				return
+			}
+
+			// Log generated token (for debugging purposes)
+			fmt.Println("Generated token:", tokenString)
+
+			// Set authentication cookie
+			SetAuthCookie(w, tokenString)
+
+			// Redirect to products page
+			fmt.Println("Redirecting to /products")
+			http.Redirect(w, r, "http://127.0.0.1:8080/products", http.StatusSeeOther)
+			return
+		} else {
+			// Authentication failed
+			fmt.Println("Authentication failed:", err)
+			http.Error(w, "Invalid credentials", http.StatusUnauthorized)
+			return
+		}
+	}
 }
+
 
 func SetAuthCookie(w http.ResponseWriter, tokenString string) {
-	http.SetCookie(w, &http.Cookie{
-		Name:     "auth_token",
-		Value:    tokenString,
-		HttpOnly: true,
-		Secure:   false,
-		Path:     "/",
-		Expires:  time.Now().Add(24 * time.Hour),
-	})
+    cookie := &http.Cookie{
+        Name:     "auth_token",
+        Value:    tokenString,
+        HttpOnly: true,
+        Secure:   false, // Set to false for local testing
+        Path:     "/",
+        Expires:  time.Now().Add(24 * time.Hour),
+    }
+    fmt.Println("Setting auth_token cookie:", cookie)
+    http.SetCookie(w, cookie)
 }
 
-func LoginGet(w http.ResponseWriter, r *http.Request) {
-	tmpl, _ := template.ParseFiles("templates/login.html")
-	tmpl.Execute(w, map[string]interface{}{})
-}
+
+
 
 func ExistUser(client *mongo.Client, database, collection, email, password string) (models.User, error) {
 	user := admin.GetUsers(client, database, collection, bson.M{"email": email, "password": password}, bson.D{})

@@ -1,32 +1,360 @@
-[
-    { "id": 1, "name": "Smartphone", "category": "Electronics", "description": "High-end smartphone with 128GB storage.", "price": 699, "discount": 10, "quantity": 50 },
-    { "id": 2, "name": "Laptop", "category": "Electronics", "description": "Powerful laptop with 16GB RAM and 512GB SSD.", "price": 1200, "discount": 15, "quantity": 30 },
-    { "id": 3, "name": "Headphones", "category": "Electronics", "description": "Wireless over-ear headphones with noise cancellation.", "price": 199, "discount": 5, "quantity": 100 },
-    { "id": 4, "name": "LED TV", "category": "Electronics", "description": "50-inch 4K Ultra HD Smart TV.", "price": 799, "discount": 20, "quantity": 20 },
-    { "id": 5, "name": "Smartwatch", "category": "Electronics", "description": "Fitness-focused smartwatch with heart-rate monitor.", "price": 250, "discount": 10, "quantity": 70 },
-    { "id": 6, "name": "T-Shirt", "category": "Clothes", "description": "Cotton t-shirt available in various sizes.", "price": 20, "discount": 5, "quantity": 200 },
-    { "id": 7, "name": "Jeans", "category": "Clothes", "description": "Slim-fit denim jeans for casual wear.", "price": 50, "discount": 10, "quantity": 150 },
-    { "id": 8, "name": "Jacket", "category": "Clothes", "description": "Waterproof winter jacket.", "price": 120, "discount": 15, "quantity": 80 },
-    { "id": 9, "name": "Dress", "category": "Clothes", "description": "Evening gown with elegant design.", "price": 150, "discount": 20, "quantity": 60 },
-    { "id": 10, "name": "Sweater", "category": "Clothes", "description": "Wool sweater for winter season.", "price": 60, "discount": 10, "quantity": 100 },
-    { "id": 11, "name": "Sofa", "category": "Furniture", "description": "Three-seater sofa with comfortable cushions.", "price": 700, "discount": 15, "quantity": 10 },
-    { "id": 12, "name": "Dining Table", "category": "Furniture", "description": "Wooden dining table with six chairs.", "price": 900, "discount": 20, "quantity": 5 },
-    { "id": 13, "name": "Office Chair", "category": "Furniture", "description": "Ergonomic office chair with lumbar support.", "price": 150, "discount": 10, "quantity": 50 },
-    { "id": 14, "name": "Bookshelf", "category": "Furniture", "description": "Modern bookshelf with five shelves.", "price": 250, "discount": 5, "quantity": 20 },
-    { "id": 15, "name": "Bed Frame", "category": "Furniture", "description": "King-size bed frame with wooden finish.", "price": 800, "discount": 20, "quantity": 8 },
-    { "id": 16, "name": "Wardrobe", "category": "Furniture", "description": "Spacious wooden wardrobe with sliding doors.", "price": 1000, "discount": 25, "quantity": 5 },
-    { "id": 17, "name": "Watch", "category": "Accessories", "description": "Luxury wristwatch with leather strap.", "price": 300, "discount": 15, "quantity": 40 },
-    { "id": 18, "name": "Sunglasses", "category": "Accessories", "description": "Polarized sunglasses with UV protection.", "price": 100, "discount": 10, "quantity": 120 },
-    { "id": 19, "name": "Handbag", "category": "Accessories", "description": "Leather handbag with multiple compartments.", "price": 250, "discount": 20, "quantity": 70 },
-    { "id": 20, "name": "Belt", "category": "Accessories", "description": "Adjustable leather belt for formal wear.", "price": 40, "discount": 5, "quantity": 100 },
-    { "id": 21, "name": "Necklace", "category": "Accessories", "description": "Gold-plated necklace with elegant design.", "price": 400, "discount": 25, "quantity": 30 },
-    { "id": 22, "name": "Earrings", "category": "Accessories", "description": "Silver earrings with gemstone design.", "price": 150, "discount": 20, "quantity": 50 },
-    { "id": 23, "name": "Novel", "category": "Books", "description": "Best-selling fiction novel.", "price": 15, "discount": 5, "quantity": 500 },
-    { "id": 24, "name": "Cookbook", "category": "Books", "description": "Recipe book with international cuisines.", "price": 30, "discount": 10, "quantity": 300 },
-    { "id": 25, "name": "Textbook", "category": "Books", "description": "Comprehensive textbook for college students.", "price": 60, "discount": 15, "quantity": 200 },
-    { "id": 26, "name": "Biography", "category": "Books", "description": "Inspirational biography of a famous personality.", "price": 20, "discount": 5, "quantity": 400 },
-    { "id": 27, "name": "Comics", "category": "Books", "description": "Popular comic book series.", "price": 10, "discount": 0, "quantity": 600 },
-    { "id": 28, "name": "Science Journal", "category": "Books", "description": "Latest edition of a science journal.", "price": 50, "discount": 10, "quantity": 150 },
-    { "id": 29, "name": "Children's Book", "category": "Books", "description": "Illustrated book for kids.", "price": 25, "discount": 10, "quantity": 500 },
-    { "id": 30, "name": "Mystery Novel", "category": "Books", "description": "Thrilling mystery novel by a top author.", "price": 18, "discount": 5, "quantity": 400 }
-]
+[{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a111"
+  },
+  "id": 1,
+  "name": "Smartphone",
+  "category": "Electronics",
+  "description": "High-end smartphone with 128GB storage.",
+  "price": 699,
+  "discount": 10,
+  "quantity": 50
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a112"
+  },
+  "id": 2,
+  "name": "Laptop",
+  "category": "Electronics",
+  "description": "Powerful laptop with 16GB RAM and 512GB SSD.",
+  "price": 1200,
+  "discount": 15,
+  "quantity": 30
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a113"
+  },
+  "id": 3,
+  "name": "Headphones",
+  "category": "Electronics",
+  "description": "Wireless over-ear headphones with noise cancellation.",
+  "price": 199,
+  "discount": 5,
+  "quantity": 100
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a114"
+  },
+  "id": 4,
+  "name": "LED TV",
+  "category": "Electronics",
+  "description": "50-inch 4K Ultra HD Smart TV.",
+  "price": 799,
+  "discount": 20,
+  "quantity": 20
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a115"
+  },
+  "id": 5,
+  "name": "Smartwatch",
+  "category": "Electronics",
+  "description": "Fitness-focused smartwatch with heart-rate monitor.",
+  "price": 250,
+  "discount": 10,
+  "quantity": 70
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a116"
+  },
+  "id": 6,
+  "name": "T-Shirt",
+  "category": "Clothes",
+  "description": "Cotton t-shirt available in various sizes.",
+  "price": 20,
+  "discount": 5,
+  "quantity": 200
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a117"
+  },
+  "id": 7,
+  "name": "Jeans",
+  "category": "Clothes",
+  "description": "Slim-fit denim jeans for casual wear.",
+  "price": 50,
+  "discount": 10,
+  "quantity": 150
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a118"
+  },
+  "id": 8,
+  "name": "Jacket",
+  "category": "Clothes",
+  "description": "Waterproof winter jacket.",
+  "price": 120,
+  "discount": 15,
+  "quantity": 80
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a119"
+  },
+  "id": 9,
+  "name": "Dress",
+  "category": "Clothes",
+  "description": "Evening gown with elegant design.",
+  "price": 150,
+  "discount": 20,
+  "quantity": 60
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a11a"
+  },
+  "id": 10,
+  "name": "Sweater",
+  "category": "Clothes",
+  "description": "Wool sweater for winter season.",
+  "price": 60,
+  "discount": 10,
+  "quantity": 100
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a11b"
+  },
+  "id": 11,
+  "name": "Sofa",
+  "category": "Furniture",
+  "description": "Three-seater sofa with comfortable cushions.",
+  "price": 700,
+  "discount": 15,
+  "quantity": 10
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a11c"
+  },
+  "id": 12,
+  "name": "Dining Table",
+  "category": "Furniture",
+  "description": "Wooden dining table with six chairs.",
+  "price": 900,
+  "discount": 20,
+  "quantity": 5
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a11d"
+  },
+  "id": 13,
+  "name": "Office Chair",
+  "category": "Furniture",
+  "description": "Ergonomic office chair with lumbar support.",
+  "price": 150,
+  "discount": 10,
+  "quantity": 50
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a11e"
+  },
+  "id": 14,
+  "name": "Bookshelf",
+  "category": "Furniture",
+  "description": "Modern bookshelf with five shelves.",
+  "price": 250,
+  "discount": 5,
+  "quantity": 20
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a11f"
+  },
+  "id": 15,
+  "name": "Bed Frame",
+  "category": "Furniture",
+  "description": "King-size bed frame with wooden finish.",
+  "price": 800,
+  "discount": 20,
+  "quantity": 8
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a120"
+  },
+  "id": 16,
+  "name": "Wardrobe",
+  "category": "Furniture",
+  "description": "Spacious wooden wardrobe with sliding doors.",
+  "price": 1000,
+  "discount": 25,
+  "quantity": 5
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a121"
+  },
+  "id": 17,
+  "name": "Watch",
+  "category": "Accessories",
+  "description": "Luxury wristwatch with leather strap.",
+  "price": 300,
+  "discount": 15,
+  "quantity": 40
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a122"
+  },
+  "id": 18,
+  "name": "Sunglasses",
+  "category": "Accessories",
+  "description": "Polarized sunglasses with UV protection.",
+  "price": 100,
+  "discount": 10,
+  "quantity": 120
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a123"
+  },
+  "id": 19,
+  "name": "Handbag",
+  "category": "Accessories",
+  "description": "Leather handbag with multiple compartments.",
+  "price": 250,
+  "discount": 20,
+  "quantity": 70
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a124"
+  },
+  "id": 20,
+  "name": "Belt",
+  "category": "Accessories",
+  "description": "Adjustable leather belt for formal wear.",
+  "price": 40,
+  "discount": 5,
+  "quantity": 100
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a125"
+  },
+  "id": 21,
+  "name": "Necklace",
+  "category": "Accessories",
+  "description": "Gold-plated necklace with elegant design.",
+  "price": 400,
+  "discount": 25,
+  "quantity": 30
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a126"
+  },
+  "id": 22,
+  "name": "Earrings",
+  "category": "Accessories",
+  "description": "Silver earrings with gemstone design.",
+  "price": 150,
+  "discount": 20,
+  "quantity": 50
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a127"
+  },
+  "id": 23,
+  "name": "Novel",
+  "category": "Books",
+  "description": "Best-selling fiction novel.",
+  "price": 15,
+  "discount": 5,
+  "quantity": 500
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a128"
+  },
+  "id": 24,
+  "name": "Cookbook",
+  "category": "Books",
+  "description": "Recipe book with international cuisines.",
+  "price": 30,
+  "discount": 10,
+  "quantity": 300
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a129"
+  },
+  "id": 25,
+  "name": "Textbook",
+  "category": "Books",
+  "description": "Comprehensive textbook for college students.",
+  "price": 60,
+  "discount": 15,
+  "quantity": 200
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a12a"
+  },
+  "id": 26,
+  "name": "Biography",
+  "category": "Books",
+  "description": "Inspirational biography of a famous personality.",
+  "price": 20,
+  "discount": 5,
+  "quantity": 400
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a12b"
+  },
+  "id": 27,
+  "name": "Comics",
+  "category": "Books",
+  "description": "Popular comic book series.",
+  "price": 10,
+  "discount": 0,
+  "quantity": 600
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a12c"
+  },
+  "id": 28,
+  "name": "Science Journal",
+  "category": "Books",
+  "description": "Latest edition of a science journal.",
+  "price": 50,
+  "discount": 10,
+  "quantity": 150
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a12d"
+  },
+  "id": 29,
+  "name": "Children's Book",
+  "category": "Books",
+  "description": "Illustrated book for kids.",
+  "price": 25,
+  "discount": 10,
+  "quantity": 500
+},
+{
+  "_id": {
+    "$oid": "6777be53f1c7fb9cc836a12e"
+  },
+  "id": 30,
+  "name": "Mystery Novel",
+  "category": "Books",
+  "description": "Thrilling mystery novel by a top author.",
+  "price": 18,
+  "discount": 5,
+  "quantity": 400
+}]
