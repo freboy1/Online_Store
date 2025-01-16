@@ -191,3 +191,6 @@
 {"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-13T23:00:23+05:00","timestamp":"2025-01-13T23:00:23+05:00","user_id":"1"}
 {"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-13T23:03:02+05:00","timestamp":"2025-01-13T23:03:02+05:00","user_id":"1"}
 {"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-13T23:16:56+05:00","timestamp":"2025-01-13T23:16:56+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-15T22:48:40+05:00","timestamp":"2025-01-15T22:48:40+05:00","user_id":"1"}
+{"action":"Smartphone","level":"info","msg":"User action logged","page":"1","time":"2025-01-15T22:48:46+05:00","timestamp":"2025-01-15T22:48:46+05:00","user_id":"1"}
+{"action":"Smartphone","level":"info","msg":"User action logged","page":"1","time":"2025-01-15T23:06:22+05:00","timestamp":"2025-01-15T23:06:22+05:00","user_id":"1"}

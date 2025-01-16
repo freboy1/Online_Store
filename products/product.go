@@ -16,20 +16,29 @@ import (
 func Product(w http.ResponseWriter, r *http.Request, client *mongo.Client, database, collection string, log *logrus.Logger) {
 	vars := mux.Vars(r)
 	idStr := vars["id"] 
-	id, _ := strconv.ParseInt(idStr, 10, 64)
+	id, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
+		fmt.Println(id)
+		http.Error(w, "Invalid product ID", http.StatusBadRequest)
+		return
+	}
+
 	var pageData PageData
 
 	product := GetProducts(client, database, collection, bson.M{"id": id}, bson.D{})
 	pageData.Products = product
 	pageData.Error = ""
-	
-	tmpl, err := template.ParseFiles("templates/product.html")
+
+	tmpl, err := template.ParseFiles("../templates/product.html")
 	if err != nil {
-		pageData.Error = "Error with template"
+		http.Error(w, "Template not found or invalid", http.StatusInternalServerError)
+		return
 	}
 
 	if r.Method == http.MethodGet {
-		logger.LogUserAction(log, product[0].Name, "1", idStr, map[string]interface{}{})
+		if log != nil {
+			logger.LogUserAction(log, product[0].Name, "1", idStr, map[string]interface{}{})
+		}
 		tmpl.Execute(w, pageData)
 	} else if r.Method == http.MethodPost {
 		if err := r.ParseForm(); err != nil {
