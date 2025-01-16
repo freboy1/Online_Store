@@ -22,7 +22,7 @@ func TestLoginPage(t *testing.T) {
     }
 
     // Connect to Edge WebDriver running on port 5555
-    wd, err := selenium.NewRemote(caps, "http://127.0.0.1:5555")
+    wd, err := selenium.NewRemote(caps, "http://127.0.0.1:50998")
     if err != nil {
         t.Fatal(err)
     }
@@ -53,7 +53,7 @@ func TestLoginPage(t *testing.T) {
     if err != nil {
         t.Fatal(err)
     }
-
+    time.Sleep(5 * time.Second)
     // Find the submit button using the correct ID (login)
     submitButton, err := wd.FindElement(selenium.ByID, "login")
     if err != nil {
