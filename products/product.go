@@ -28,8 +28,7 @@ func Product(w http.ResponseWriter, r *http.Request, client *mongo.Client, datab
 	product := GetProducts(client, database, collection, bson.M{"id": id}, bson.D{})
 	pageData.Products = product
 	pageData.Error = ""
-
-	tmpl, err := template.ParseFiles("../templates/product.html")
+	tmpl, err := template.ParseFiles("templates/product.html")
 	if err != nil {
 		http.Error(w, "Template not found or invalid", http.StatusInternalServerError)
 		return
