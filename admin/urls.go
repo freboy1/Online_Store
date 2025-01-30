@@ -43,7 +43,7 @@ func adminMiddleware(w http.ResponseWriter, r *http.Request) bool {
 	cookie, err := r.Cookie("auth_token")
 	isadmin := false
 	if err == nil {
-		role, _ := GetRole(cookie.Value)
+		role, _ := GetClaim(cookie.Value, "role")
 		if role == "admin" {
 			isadmin = true 
 		}
@@ -55,7 +55,7 @@ func adminMiddleware(w http.ResponseWriter, r *http.Request) bool {
 	return true
 }
 
-func GetRole(tokenString string) (string, error) {
+func GetClaim(tokenString, role string) (string, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		return secretKey, nil
 	})
@@ -71,7 +71,7 @@ func GetRole(tokenString string) (string, error) {
 		return "", fmt.Errorf("Invalid token claims")
 	}
 
-	value, ok := claims["role"].(string)
+	value, ok := claims[role].(string)
 	if !ok {
 		return "", fmt.Errorf("role not found in token")
 	}

@@ -1,21 +1,24 @@
 package main
 
 import (
-	"log"
-	"net/http"
 	"encoding/json"
 	"fmt"
-	"strconv"
-	"onlinestore/db"
-	"onlinestore/products"
-	"github.com/gorilla/mux"
-	"os"
-	"github.com/sirupsen/logrus"
-	"golang.org/x/time/rate"
-	"go.mongodb.org/mongo-driver/mongo"
+	"log"
+	"net/http"
 	"onlinestore/admin"
 	"onlinestore/auth"
+	"onlinestore/cart"
+	"onlinestore/db"
+	"onlinestore/products"
+	"os"
+	"strconv"
+
+	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
+	"github.com/sirupsen/logrus"
+	"go.mongodb.org/mongo-driver/mongo"
+	"golang.org/x/time/rate"
+	"github.com/rs/cors"
 )
 
 type GetMessage struct {
@@ -105,10 +108,12 @@ func main() {
 	mux.HandleFunc("/products/{id:[0-9]+}", func(w http.ResponseWriter, r *http.Request) {
         products.Product(w, r, client, database, collection, logs)
     })
+	cart.RegisterRoutes(mux, client, database, "Users")
 	admin.RegisterRoutes(mux, client, database, "Users")
 	auth.RegisterRoutes(mux, client, database, "Users")
+	handler := cors.Default().Handler(mux)
 	log.Println("Запуск веб-сервера на http://127.0.0.1:8080")
-	err = http.ListenAndServe(":8080", mux)
+	err = http.ListenAndServe(":8080", handler)
 	log.Fatal(err)
 }
 

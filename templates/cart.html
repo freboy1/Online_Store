@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products List</title>
+    <style>
+        input {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cart</h1>
+    {{range .Products}}
+        <a href="http://127.0.0.1:8080/products/{{.ID}}">{{.Name}}</a>
+        <ul>
+            <li>Category: {{.Category}}</li>
+            <li>{{.Description}}</li>
+            <li>Price: {{.Price}}</li>
+            <li>Discount: {{.Discount}}</li>
+            <li>Quantity: {{.Quantity}}</li>
+        </ul>
+    {{end}}
+    <hr>
+    <h2><a href="/products">Go to Products</a></h2>
+</body>
+</html>

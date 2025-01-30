@@ -22,7 +22,7 @@ func TestLoginPage(t *testing.T) {
     }
 
     // Connect to Edge WebDriver running on port 5555
-    wd, err := selenium.NewRemote(caps, "http://127.0.0.1:50998")
+    wd, err := selenium.NewRemote(caps, "http://127.0.0.1:52090")
     if err != nil {
         t.Fatal(err)
     }

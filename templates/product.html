@@ -22,6 +22,12 @@
     {{range .Products}}
 
         <form action="" method="post">
+            <label for="id" style="display: none;">Enter Product ID:</label>
+            <input type="text" id="id" name="id"  value="{{.ID}}" style="display: none;">
+
+            <label for="category" style="display: none;">Enter Product category:</label>
+            <input type="text" id="category" name="category"  value="{{.Category}}" style="display: none;">
+            
             <label for="name">Enter Product Name:</label>
             <input type="text" id="name" name="name"  value="{{.Name}}">
             <br>
@@ -42,6 +48,7 @@
         </form>
 
     {{end}}
+    <button id="cart-button">Add to Cart</button> <br> <br>
     <form action="" method="post">
         <input type="text" id="action" name="action" hidden value="delete">
         <button type="submit">Delete</button>
@@ -49,3 +56,44 @@
 
 </body>
 </html>
+<script>
+    var button = document.getElementById("cart-button");
+    button.addEventListener("click", async function(event) {
+        event.preventDefault();
+        const productId = parseInt(document.getElementById("id").value);
+        const productName = document.getElementById("name").value;
+        const productCategory = document.getElementById("category").value;
+        const productDescription = document.getElementById("description").value;
+        const productPrice = parseInt(document.getElementById("price").value);
+        const productDiscount = parseInt(document.getElementById("discount").value);
+        const productQuantity = parseInt(document.getElementById("quantity").value);
+        
+        const productData = {
+        id: productId,
+        name: productName,
+        category: productCategory,
+        description: productDescription,
+        price: productPrice,
+        discount: productDiscount,
+        quantity: productQuantity
+    };
+
+        try {
+                const response = await fetch(`http://127.0.0.1:8080/addcart`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(productData)
+                });
+
+                if (!response.ok) {
+                    alert("Failed to add product to cart.");
+                } else {
+                    alert("Successfully added product to cart.");
+                }
+            } catch (error) {
+                alert("An error occurred while adding to cart.");
+            }
+    });
+</script>
