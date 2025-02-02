@@ -257,3 +257,10 @@
 {"action":"Smartphone","level":"info","msg":"User action logged","page":"1","time":"2025-01-30T23:31:05+05:00","timestamp":"2025-01-30T23:31:05+05:00","user_id":"1"}
 {"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-30T23:31:13+05:00","timestamp":"2025-01-30T23:31:13+05:00","user_id":"1"}
 {"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-30T23:31:52+05:00","timestamp":"2025-01-30T23:31:52+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-30T23:32:06+05:00","timestamp":"2025-01-30T23:32:06+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-30T23:32:07+05:00","timestamp":"2025-01-30T23:32:07+05:00","user_id":"1"}
+{"action":"Laptop","level":"info","msg":"User action logged","page":"2","time":"2025-01-30T23:32:09+05:00","timestamp":"2025-01-30T23:32:09+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-01-30T23:32:13+05:00","timestamp":"2025-01-30T23:32:13+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-02-02T13:46:34+05:00","timestamp":"2025-02-02T13:46:34+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-02-02T13:46:41+05:00","timestamp":"2025-02-02T13:46:41+05:00","user_id":"1"}
+{"Page Pagination":1,"action":"get Products","filter":null,"level":"info","msg":"User action logged","page":"produtcs","sort":"","time":"2025-02-02T20:30:44+05:00","timestamp":"2025-02-02T20:30:44+05:00","user_id":"1"}
