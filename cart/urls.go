@@ -15,4 +15,7 @@ func RegisterRoutes(router *mux.Router, client *mongo.Client, database, collecti
 	router.HandleFunc("/getcart", func(w http.ResponseWriter, r *http.Request) {
 		GetCartHandler(w, r, client, database, collection)
 	})
+	router.HandleFunc("/verifycart", func(w http.ResponseWriter, r *http.Request) {
+		VerifyCart(w, r, client, database, collection)
+	})
 }

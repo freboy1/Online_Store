@@ -80,13 +80,15 @@ func LoginHandler(w http.ResponseWriter, r *http.Request, client *mongo.Client, 
 
 func SetAuthCookie(w http.ResponseWriter, tokenString string) {
     cookie := &http.Cookie{
-        Name:     "auth_token",
-        Value:    tokenString,
-        HttpOnly: true,
-        Secure:   false, // Set to false for local testing
-        Path:     "/",
-        Expires:  time.Now().Add(24 * time.Hour),
-    }
+		Name:     "auth_token",
+		Value:    tokenString,
+		HttpOnly: true,
+		Domain:   "127.0.0.1", // Без точки
+		Secure:   false,        // Для локальной разработки
+		Path:     "/",
+		Expires:  time.Now().Add(24 * time.Hour),
+	}
+	
     fmt.Println("Setting auth_token cookie:", cookie)
     http.SetCookie(w, cookie)
 }
