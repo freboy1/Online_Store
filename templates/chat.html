@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>WebSocket Test</title>
+</head>
+
+<body>
+  <h1>WebSocket Chat Test</h1>
+  <input id="username" placeholder="Ваше имя" style="display: none;" value="Customer"><br>
+  <textarea id="chatLog" cols="30" rows="10" readonly></textarea><br>
+  <input id="message" placeholder="Введите сообщение" required><br>
+  <button onclick="sendMessage()">Отправить</button>
+
+  <script>
+    const socket = new WebSocket("ws://127.0.0.1:8080/ws");
+
+    const currentUrl = window.location.href;
+    const match = currentUrl.match(/\/chat\/(\d+)/);
+    const id = match[1];
+    document.addEventListener("DOMContentLoaded", async function () {
+      response = await fetch(`http://127.0.0.1:8080/messageshistory/${id}`, {
+        method: "GET",
+      });
+      const messages = await response.json();
+      messages.forEach(message => {
+        document.getElementById('chatLog').value += `${message.username}: ${message.content}\n`;
+      });
+    });
+
+    socket.onmessage = function (event) {
+      const message = JSON.parse(event.data);
+      document.getElementById('chatLog').value += `${message.username}: ${message.content}\n`;
+    };
+
+    async function sendMessage() {
+      const username = "Customer";
+      const content = document.getElementById('message').value;
+      console.log(username, content, id);
+      const response = await fetch(`http://127.0.0.1:8080/messageshistory`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, content, id}),
+        });
+
+      socket.send(JSON.stringify({ username, content, id }));
+    }
+  </script>
+</body>
+
+</html>

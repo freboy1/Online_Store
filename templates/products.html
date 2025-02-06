@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,12 +11,13 @@
         }
     </style>
 </head>
+
 <body>
     <h1>Create Product</h1>
     {{if .Error}}
-        <div style="color: red;">
-            {{.Error}}
-        </div>
+    <div style="color: red;">
+        {{.Error}}
+    </div>
     {{end}}
     <form action="/products" method="post">
         <label for="name">Enter Product Name:</label>
@@ -35,24 +37,29 @@
         <br>
         <button type="submit">Create</button>
     </form>
-<hr>
+    <hr>
     <h2><a href="/getcart">Go to Cart</a></h2>
+    <h2>
+        <div id="chat">
+
+        </div>
+    </h2>
     <h1>Products List</h1>
     <form action="" method="get">
         <label>Select Your Filter:</label><br><br>
-        
+
         <input type="checkbox" id="electronics" name="filter" value="Electronics">
         <label for="electronics">Electronics</label><br>
-        
+
         <input type="checkbox" id="clothes" name="filter" value="Clothes">
         <label for="clothes">Clothes</label><br>
-        
+
         <input type="checkbox" id="furniture" name="filter" value="Furniture">
         <label for="furniture">Furniture</label><br>
-        
+
         <input type="checkbox" id="accessories" name="filter" value="Accessories">
         <label for="accessories">Accessories</label><br>
-        
+
         <input type="checkbox" id="books" name="filter" value="Books">
         <label for="books">Books</label><br><br>
         <label>Sort Products by Price:</label><br><br>
@@ -63,34 +70,60 @@
         </select>
         <input type="submit" value="Submit">
     </form>
-    
+
     <hr>
     {{range .Products}}
-        <a href="http://127.0.0.1:8080/products/{{.ID}}">{{.Name}}</a>
-        <ul>
-            <li>Category: {{.Category}}</li>
-            <li>{{.Description}}</li>
-            <li>Price: {{.Price}}</li>
-            <li>Discount: {{.Discount}}</li>
-            <li>Quantity: {{.Quantity}}</li>
-        </ul>
+    <a href="http://127.0.0.1:8080/products/{{.ID}}">{{.Name}}</a>
+    <ul>
+        <li>Category: {{.Category}}</li>
+        <li>{{.Description}}</li>
+        <li>Price: {{.Price}}</li>
+        <li>Discount: {{.Discount}}</li>
+        <li>Quantity: {{.Quantity}}</li>
+    </ul>
     {{end}}
     <hr>
-<div>
-    <h3>Pagination</h3>
-    {{range .Pages}}
-    <button onclick="addPageParameter('{{.}}')">Page {{.}}</button>
-    {{end}}
-</div>
+    <div>
+        <h3>Pagination</h3>
+        {{range .Pages}}
+        <button onclick="addPageParameter('{{.}}')">Page {{.}}</button>
+        {{end}}
+    </div>
 </body>
+
 </html>
 <script>
     function addPageParameter(pageNumber) {
 
         const currentUrl = new URL(window.location.href);
-        
+
         currentUrl.searchParams.set('page', pageNumber);
-        
+
         window.location.href = currentUrl.toString();
     }
+
+    document.addEventListener("DOMContentLoaded", async function () {
+        response = await fetch(`http://127.0.0.1:8080/getchat`, { method: "GET" });
+        response = await response.json();
+
+        if (response['chat_id'] === '') {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/create_chat'; 
+
+            const submitButton = document.createElement('button');
+            submitButton.type = 'submit';
+            submitButton.innerText = 'Create Chat';
+
+            form.appendChild(submitButton);
+            document.getElementById('chat').appendChild(form);
+
+        } else {
+            const chatLink = document.createElement('a');
+            chatLink.href = `/chat/${response['chat_id']}`;
+            chatLink.innerText = 'Go to Chat';
+            document.getElementById('chat').appendChild(chatLink);
+        }
+
+    });
 </script>
