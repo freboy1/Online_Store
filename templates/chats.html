@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chats</title>
+</head>
+<body>
+    <h1>Active Chats</h1>
+    <ul>
+        {{range .}}
+        <li>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <h3 style="margin: 0;">
+                  <a href="/chat/{{.ChatID}}">Chat {{.ChatID}}</a>
+                </h3>
+                <form action="/closechat" method="post">
+                    <input type="text" name="chat_id" value="{{.ChatID}}" style="display: none;">
+                  <button type="submit">Close Chat</button>
+                </form>
+              </div>              
+        </li>
+        {{end}}
+    </ul>
+</body>
+</html>

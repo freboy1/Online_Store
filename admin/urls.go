@@ -46,6 +46,8 @@ func adminMiddleware(w http.ResponseWriter, r *http.Request) bool {
 		role, _ := GetClaim(cookie.Value, "role")
 		if role == "admin" {
 			isadmin = true 
+		} else {
+			return false
 		}
 	}
 	if !isadmin {

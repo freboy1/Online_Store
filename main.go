@@ -117,6 +117,26 @@ func main() {
 		temp.Execute(w, nil)
 	})
 
+	mux.HandleFunc("/admin/chats", func(w http.ResponseWriter, r *http.Request) {
+		chats := chat.GetChats(client, database, "Chats", bson.M{"status": "Active"}, bson.D{})
+		temp, _ := template.ParseFiles("templates/chats.html")
+		temp.Execute(w, chats)
+	})
+	mux.HandleFunc("/getrole", func(w http.ResponseWriter, r *http.Request) {
+		cookie, _ := r.Cookie("auth_token")
+		role, _ := admin.GetClaim(cookie.Value, "role")
+		w.Header().Set("Content-Type", "applications/json")
+		json.NewEncoder(w).Encode(map[string]string{"role": role})
+
+	})
+	mux.HandleFunc("/closechat", func(w http.ResponseWriter, r *http.Request) {
+		r.ParseForm()
+		chatID, _ := strconv.ParseInt(r.FormValue("chat_id"), 10, 64)
+		dataBase := client.Database(database).Collection("Chats")
+		dataBase.UpdateOne(r.Context(), bson.M{"id": chatID}, bson.M{"$set": bson.M{"status": "Closed"}})
+		http.Redirect(w, r, "/admin/chats", http.StatusSeeOther)
+	})
+
 	mux.HandleFunc("/getchat", func(w http.ResponseWriter, r *http.Request) {
 		cookie, err := r.Cookie("auth_token")
 		result := make(map[string]interface{})

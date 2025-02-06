@@ -3,50 +3,151 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>WebSocket Test</title>
+  <title>WebSocket Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      margin: 0;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    #chatLog {
+      width: 100%;
+      max-width: 600px;
+      height: 300px;
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow-y: auto;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #333;
+    }
+
+    #message {
+      width: 100%;
+      max-width: 600px;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .message-container {
+      margin-bottom: 10px;
+    }
+
+    .admin-message {
+      color: #0066cc;
+      font-weight: bold;
+    }
+
+    .customer-message {
+      color: #e60000;
+      font-weight: bold;
+    }
+
+    .timestamp {
+      font-size: 12px;
+      color: #aaa;
+    }
+  </style>
 </head>
+
 
 <body>
   <h1>WebSocket Chat Test</h1>
-  <input id="username" placeholder="Ваше имя" style="display: none;" value="Customer"><br>
   <textarea id="chatLog" cols="30" rows="10" readonly></textarea><br>
   <input id="message" placeholder="Введите сообщение" required><br>
   <button onclick="sendMessage()">Отправить</button>
 
   <script>
+    let userRole = ''; 
     const socket = new WebSocket("ws://127.0.0.1:8080/ws");
 
-    const currentUrl = window.location.href;
-    const match = currentUrl.match(/\/chat\/(\d+)/);
-    const id = match[1];
     document.addEventListener("DOMContentLoaded", async function () {
-      response = await fetch(`http://127.0.0.1:8080/messageshistory/${id}`, {
+      const response = await fetch("http://127.0.0.1:8080/getrole", {
         method: "GET",
       });
-      const messages = await response.json();
-      messages.forEach(message => {
-        document.getElementById('chatLog').value += `${message.username}: ${message.content}\n`;
+      const data = await response.json();
+      userRole = data.role; 
+
+      const currentUrl = window.location.href;
+      const match = currentUrl.match(/\/chat\/(\d+)/);
+      const chatId = match[1];
+      document.getElementById('chatLog').value = '';
+
+      const messagesResponse = await fetch(`http://127.0.0.1:8080/messageshistory/${chatId}`, {
+        method: "GET",
       });
+      const messages = await messagesResponse.json();
+
+      
+      messages.forEach(message => {
+      const senderLabel = message.senderType === "admin" ? "[Admin]" : "[Customer]";
+      const timestamp = new Date(message.timestamp); // Convert the timestamp to a JavaScript Date object
+      const formattedTimestamp = timestamp.toLocaleString(); // Format it as a readable string
+      document.getElementById('chatLog').value += `${message.username} [${formattedTimestamp}]: ${message.content}\n`;
+    });
+
     });
 
     socket.onmessage = function (event) {
-      const message = JSON.parse(event.data);
-      document.getElementById('chatLog').value += `${message.username}: ${message.content}\n`;
-    };
+    const message = JSON.parse(event.data);
+    const senderLabel = message.senderType === "admin" ? "[Admin]" : "[Customer]";
+
+    const timestamp = new Date(message.timestamp);  
+    const formattedTimestamp = timestamp.toLocaleString();  
+
+    document.getElementById('chatLog').value += `${message.username} [${formattedTimestamp}]: ${message.content}\n`;
+};
+
 
     async function sendMessage() {
-      const username = "Customer";
-      const content = document.getElementById('message').value;
-      console.log(username, content, id);
-      const response = await fetch(`http://127.0.0.1:8080/messageshistory`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username, content, id}),
-        });
+      const messageContent = document.getElementById('message').value;
+      const username = userRole === "admin" ? "Admin" : "Customer";  
+      const senderType = userRole === "admin" ? "admin" : "customer"; 
 
-      socket.send(JSON.stringify({ username, content, id }));
+      const currentUrl = window.location.href;
+      const match = currentUrl.match(/\/chat\/(\d+)/);
+      const chatId = match[1];
+
+      await fetch(`http://127.0.0.1:8080/messageshistory`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, content: messageContent, id: chatId, senderType }),
+      });
+
+      socket.send(JSON.stringify({ username, content: messageContent, id: chatId, senderType }));
     }
   </script>
 </body>

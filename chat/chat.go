@@ -9,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"context"
 	"github.com/gorilla/websocket"
+	"time"
 )
 
 // Конфигурация WebSocket upgrader
@@ -22,8 +23,11 @@ var broadcast = make(chan Message)
 
 // Структура сообщения
 type Message struct {
-	Username string `json:"username"`
-	Content  string `json:"content"`
+	Username   string    `json:"username" bson:"username"`
+    Content    string    `json:"content" bson:"content"`
+    SenderType string    `json:"senderType" bson:"senderType"` 
+    Timestamp  time.Time `json:"timestamp" bson:"timestamp"`
+
 }
 
 func HandleConnections(w http.ResponseWriter, r *http.Request) {

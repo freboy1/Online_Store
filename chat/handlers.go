@@ -11,6 +11,7 @@ import (
 	"github.com/gorilla/mux"
 	"fmt"
 	"strconv"
+	"time"
 )
 
 // Хранилище истории сообщений
@@ -38,7 +39,8 @@ func HandleMessageHistory(w http.ResponseWriter, r *http.Request, client *mongo.
 		
 		message.Username, _ = data["username"].(string)
 		message.Content, _ = data["content"].(string)
-
+		message.SenderType, _ = data["senderType"].(string) // e.g., "admin" or "customer"
+        message.Timestamp = time.Now()
 		coll := client.Database(database).Collection(collection)
 		filter := bson.M{"id": intID}
 		update := bson.M{
