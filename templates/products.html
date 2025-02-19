@@ -9,36 +9,343 @@
         input {
             margin-bottom: 20px;
         }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f6f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        form {
+            /* background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+            margin: 20px auto;
+            width: 90%;
+            max-width: 1000px;
+            /* border: 2px solid #2980b9; */ 
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button,
+        input[type="submit"] {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover,
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        a {
+            color: #2980b9;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 5px 0;
+        }
+
+        #chat {
+            margin: 20px;
+            text-align: center;
+        }
+
+        .pagination button {
+            margin: 5px;
+            background-color: #27ae60;
+        }
+
+        .pagination button:hover {
+            background-color: #219150;
+        }
+
+        .products-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px;
+    padding: 0;
+}
+
+.product-item {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    border: 3px solid #2980b9;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: left;
+    flex: 1 1 calc(33.333% - 40px); /* 3 items per row */
+    max-width: 300px; /* Ensures proper alignment */
+    margin: 10px;
+}
+.product-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Style the product name as a clickable link */
+.product-item a {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2980b9;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.product-item a:hover {
+    text-decoration: underline;
+}
+
+.product-item ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.product-item li {
+    color: #555;
+    margin: 5px 0;
+}
+
+        /* Filter Section Styling */
+        form.filter-form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            width: 90%;
+            max-width: 600px;
+            border: 3px solid #27ae60;
+            text-align: left;
+        }
+
+        form.filter-form label {
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 10px 0;
+            display: block;
+        }
+
+        form.filter-form input[type="checkbox"] {
+            margin-right: 10px;
+            accent-color: #27ae60;
+            transform: scale(1.3);
+            cursor: pointer;
+        }
+
+        form.filter-form select {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 2px solid #27ae60;
+            border-radius: 5px;
+            background-color: #e6fff0;
+            color: #2c3e50;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        form.filter-form input[type="submit"] {
+            background-color: #27ae60;
+            color: #fff;
+            padding: 12px 20px;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        form.filter-form input[type="submit"]:hover {
+            background-color: #219150;
+        }
+
+        form.filter-form .filter-group {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f0fff4;
+            border-radius: 10px;
+            border: 2px solid #27ae60;
+        }
+
+        form.filter-form .filter-group label {
+            margin-left: 5px;
+            cursor: pointer;
+        }
+        .hidden {
+    display: none;
+}
+
+
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+    border: 3px solid #27ae60;
+    max-width: 95%; /* Make the entire filter section wider */
+    margin: 20px auto;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    border: 2px solid #27ae60;
+    border-radius: 8px;
+    background-color: #f0fff4;
+    min-width: 200px; /* Increase width */
+    max-width: 300px; /* Allow flexibility */
+    flex: 1; /* Distribute space evenly */
+}
+
+.filter-group h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.filter-group input[type="number"],
+.filter-group select,
+.filter-group input[type="text"] {
+    padding: 10px;
+    border: 2px solid #27ae60;
+    border-radius: 5px;
+    width: 100%; /* Make fields stretch */
+    text-align: center;
+}
+
+.filter-group input[type="checkbox"] {
+    transform: scale(1.2);
+    margin: 5px;
+}
+
+/* Ensure the submit button aligns well */
+.filter-group:last-child {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.filter-group input[type="submit"] {
+    padding: 12px 25px;
+    background-color: #27ae60;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.filter-group input[type="submit"]:hover {
+    background-color: #219150;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .filter-container {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .filter-group {
+        min-width: 180px;
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .filter-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-group {
+        width: 100%;
+    }
+}
+
     </style>
+
 </head>
 
 <body>
-    <h1>Create Product</h1>
-    {{if .Error}}
-    <div style="color: red;">
-        {{.Error}}
+    <h1>AlisherExpress Products</h1>
+    <button onclick="toggleForm()">Create Product Form</button>
+    <div id="productForm" class="hidden">
+        {{if .Error}}
+        <div style="color: red;">
+            {{.Error}}
+        </div>
+        {{end}}
+        <form action="/products" method="post">
+            <label for="name">Enter Product Name:</label>
+            <input type="text" id="name" name="name" required>
+            <br>
+            <label for="description">Enter Product Description:</label>
+            <input type="text" id="description" name="description" required>
+            <br>
+            <label for="price">Enter Product Price:</label>
+            <input type="text" id="price" name="price" required>
+            <br>
+            <label for="discount">Enter Product Discount:</label>
+            <input type="text" id="discount" name="discount" required>
+            <br>
+            <label for="quantity">Enter Product Quantity:</label>
+            <input type="text" id="quantity" name="quantity" required>
+            <br>
+            <button type="submit">Create</button>
+        </form>
     </div>
-    {{end}}
-    <form action="/products" method="post">
-        <label for="name">Enter Product Name:</label>
-        <input type="text" id="name" name="name" required>
-        <br>
-        <label for="description">Enter Product Description:</label>
-        <input type="text" id="description" name="description" required>
-        <br>
-        <label for="price">Enter Product Price:</label>
-        <input type="text" id="price" name="price" required>
-        <br>
-        <label for="discount">Enter Product Discount:</label>
-        <input type="text" id="discount" name="discount" required>
-        <br>
-        <label for="quantity">Enter Product Quantity:</label>
-        <input type="text" id="quantity" name="quantity" required>
-        <br>
-        <button type="submit">Create</button>
-    </form>
     <hr>
-    <h2><a href="/getcart">Go to Cart</a></h2>
+    <!-- <h2><a href="/getcart">Go to Cart</a></h2> -->
     <h2>
         <div id="chat">
 
@@ -46,44 +353,86 @@
     </h2>
     <h1>Products List</h1>
     <form action="" method="get">
-        <label>Select Your Filter:</label><br><br>
-
-        <input type="checkbox" id="electronics" name="filter" value="Electronics">
-        <label for="electronics">Electronics</label><br>
-
-        <input type="checkbox" id="clothes" name="filter" value="Clothes">
-        <label for="clothes">Clothes</label><br>
-
-        <input type="checkbox" id="furniture" name="filter" value="Furniture">
-        <label for="furniture">Furniture</label><br>
-
-        <input type="checkbox" id="accessories" name="filter" value="Accessories">
-        <label for="accessories">Accessories</label><br>
-
-        <input type="checkbox" id="books" name="filter" value="Books">
-        <label for="books">Books</label><br><br>
-        <label>Sort Products by Price:</label><br><br>
-        <select name="sort" id="sort">
-            <option value="0" disabled selected>Choose Sorting</option>
-            <option value="1">Ascending</option>
-            <option value="-1">Descending</option>
-        </select>
-        <input type="submit" value="Submit">
+        <div class="filter-container">
+            <div class="filter-group">
+                <h3>Filter by Category:</h3>
+                <label><input type="checkbox" name="filterCategory" value="Electronics"> Electronics</label>
+                <label><input type="checkbox" name="filterCategory" value="Clothes"> Clothes</label>
+                <label><input type="checkbox" name="filterCategory" value="Furniture"> Furniture</label>
+                <label><input type="checkbox" name="filterCategory" value="Accessories"> Accessories</label>
+                <label><input type="checkbox" name="filterCategory" value="Books"> Books</label>
+            </div>
+    
+            <div class="filter-group">
+                <h3>Filter by Price:</h3>
+                <input type="number" name="minPrice" placeholder="Min Price">
+                <input type="number" name="maxPrice" placeholder="Max Price">
+            </div>
+    
+            <div class="filter-group">
+                <h3>Filter by Quantity:</h3>
+                <input type="number" name="minQuantity" placeholder="Min Quantity">
+                <input type="number" name="maxQuantity" placeholder="Max Quantity">
+            </div>
+    
+            <div class="filter-group">
+                <h3>Filter by Rating:</h3>
+                <select name="minRating">
+                    <option value="">Minimum Rating</option>
+                    <option value="1">1★</option>
+                    <option value="2">2★</option>
+                    <option value="3">3★</option>
+                    <option value="4">4★</option>
+                    <option value="5">5★</option>
+                </select>
+            </div>
+    
+            <div class="filter-group">
+                <h3>Sort Products By:</h3>
+                <select name="sortBy">
+                    <option value="0" disabled selected>Choose Sorting</option>
+                    <option value="price_asc">Price (Low to High)</option>
+                    <option value="price_desc">Price (High to Low)</option>
+                    <option value="discount_desc">Discount (Highest First)</option>
+                    <option value="quantity_desc">Quantity (Most in Stock)</option>
+                    <option value="rating_desc">Rating (Best First)</option>
+                    <option value="createdAt_desc">Newest First</option>
+                </select>
+            </div>
+    
+            <div class="filter-group">
+                <h3>Search:</h3>
+                <input type="text" name="search" placeholder="Search by Name or Description">
+            </div>
+    
+            <div class="filter-group">
+                <input type="submit" value="Apply Filters">
+            </div>
+        </div>
     </form>
+    
+    
+    
+    
 
     <hr>
-    {{range .Products}}
-    <a href="http://127.0.0.1:8080/products/{{.ID}}">{{.Name}}</a>
-    <ul>
-        <li>Category: {{.Category}}</li>
-        <li>{{.Description}}</li>
-        <li>Price: {{.Price}}</li>
-        <li>Discount: {{.Discount}}</li>
-        <li>Quantity: {{.Quantity}}</li>
-    </ul>
-    {{end}}
+    <div class="products-list">
+        {{range .Products}}
+        <div class="product-item">
+            <a href="http://127.0.0.1:8080/products/{{.ID}}">{{.Name}}</a>
+            <ul>
+                <li><strong>Category:</strong> {{.Category}}</li>
+                <li>{{.Description}}</li>
+                <li><strong>Price:</strong> ${{.Price}}</li>
+                <li><strong>Discount:</strong> {{.Discount}}%</li>
+                <li><strong>Quantity:</strong> {{.Quantity}}</li>
+            </ul>
+        </div>
+        {{end}}
+    </div>
+    
     <hr>
-    <div>
+    <div style="margin-bottom: 30px;">
         <h3>Pagination</h3>
         {{range .Pages}}
         <button onclick="addPageParameter('{{.}}')">Page {{.}}</button>
@@ -109,7 +458,7 @@
         if (response['chat_id'] === '') {
             const form = document.createElement('form');
             form.method = 'POST';
-            form.action = '/create_chat'; 
+            form.action = '/create_chat';
 
             const submitButton = document.createElement('button');
             submitButton.type = 'submit';
@@ -126,4 +475,10 @@
         }
 
     });
+</script>
+<script>
+    function toggleForm() {
+        const form = document.getElementById('productForm');
+        form.classList.toggle('hidden');
+    }
 </script>
