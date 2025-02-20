@@ -8,7 +8,7 @@
     "discount": 10,
     "quantity": 50,
     "created_at": "2025-02-01T12:00:00Z",
-    "reviews": [{ "user_id": 101, "rating": 5, "comment": "Great sound quality!", "date": "2025-02-02T15:30:00Z" }]
+    "reviews": [{ "user_id": "101", "rating": 5, "comment": "Great sound quality!", "date": "2025-02-02T15:30:00Z" }]
   },
   {
     "id": 2,
@@ -19,7 +19,7 @@
     "discount": 15,
     "quantity": 30,
     "created_at": "2025-01-25T10:00:00Z",
-    "reviews": [{ "user_id": 102, "rating": 4, "comment": "Fast and smooth performance!", "date": "2025-01-26T08:45:00Z" }]
+    "reviews": [{ "user_id": "102", "rating": 4, "comment": "Fast and smooth performance!", "date": "2025-01-26T08:45:00Z" }]
   },
   {
     "id": 3,
@@ -30,7 +30,7 @@
     "discount": 20,
     "quantity": 15,
     "created_at": "2025-02-05T14:30:00Z",
-    "reviews": [{ "user_id": 103, "rating": 5, "comment": "Great quality and fit!", "date": "2025-02-06T12:00:00Z" }]
+    "reviews": [{ "user_id": "103", "rating": 5, "comment": "Great quality and fit!", "date": "2025-02-06T12:00:00Z" }]
   },
   {
     "id": 4,
@@ -41,7 +41,7 @@
     "discount": 12,
     "quantity": 10,
     "created_at": "2025-02-08T14:00:00Z",
-    "reviews": [{ "user_id": 106, "rating": 5, "comment": "Handles all my games smoothly!", "date": "2025-02-09T17:40:00Z" }]
+    "reviews": [{ "user_id": "106", "rating": 5, "comment": "Handles all my games smoothly!", "date": "2025-02-09T17:40:00Z" }]
   },
   {
     "id": 5,
@@ -52,7 +52,7 @@
     "discount": 5,
     "quantity": 8,
     "created_at": "2025-01-20T16:45:00Z",
-    "reviews": [{ "user_id": 104, "rating": 5, "comment": "Looks beautiful in my dining room!", "date": "2025-01-21T13:20:00Z" }]
+    "reviews": [{ "user_id": "104", "rating": 5, "comment": "Looks beautiful in my dining room!", "date": "2025-01-21T13:20:00Z" }]
   },
   {
     "id": 6,
@@ -63,7 +63,7 @@
     "discount": 15,
     "quantity": 60,
     "created_at": "2025-02-03T08:30:00Z",
-    "reviews": [{ "user_id": 107, "rating": 4, "comment": "Very comfortable for jogging!", "date": "2025-02-04T19:15:00Z" }]
+    "reviews": [{ "user_id": "107", "rating": 4, "comment": "Very comfortable for jogging!", "date": "2025-02-04T19:15:00Z" }]
   },
   {
     "id": 7,
@@ -74,7 +74,7 @@
     "discount": 10,
     "quantity": 40,
     "created_at": "2025-02-18T07:00:00Z",
-    "reviews": [{ "user_id": 109, "rating": 5, "comment": "Tracks everything I need!", "date": "2025-02-19T10:10:00Z" }]
+    "reviews": [{ "user_id": "109", "rating": 5, "comment": "Tracks everything I need!", "date": "2025-02-19T10:10:00Z" }]
   },
   {
     "id": 8,
@@ -85,7 +85,7 @@
     "discount": 18,
     "quantity": 20,
     "created_at": "2025-02-09T10:45:00Z",
-    "reviews": [{ "user_id": 110, "rating": 4, "comment": "Good quality, but takes time to heat!", "date": "2025-02-10T14:20:00Z" }]
+    "reviews": [{ "user_id": "110", "rating": 4, "comment": "Good quality, but takes time to heat!", "date": "2025-02-10T14:20:00Z" }]
   },
   {
     "id": 9,
@@ -96,7 +96,7 @@
     "discount": 10,
     "quantity": 55,
     "created_at": "2025-02-11T12:00:00Z",
-    "reviews": [{ "user_id": 111, "rating": 5, "comment": "Amazing sound!", "date": "2025-02-12T16:45:00Z" }]
+    "reviews": [{ "user_id": "111", "rating": 5, "comment": "Amazing sound!", "date": "2025-02-12T16:45:00Z" }]
   },
   {
     "id": 10,
@@ -107,7 +107,7 @@
     "discount": 7,
     "quantity": 35,
     "created_at": "2025-02-13T11:20:00Z",
-    "reviews": [{ "user_id": 112, "rating": 4, "comment": "Works well but a little noisy!", "date": "2025-02-14T09:50:00Z" }]
+    "reviews": [{ "user_id": "112", "rating": 4, "comment": "Works well but a little noisy!", "date": "2025-02-14T09:50:00Z" }]
   },
   {
     "id": 11,
@@ -118,7 +118,7 @@
     "discount": 10,
     "quantity": 18,
     "created_at": "2025-02-14T09:30:00Z",
-    "reviews": [{ "user_id": 113, "rating": 5, "comment": "Very comfortable for long work hours!", "date": "2025-02-15T13:10:00Z" }]
+    "reviews": [{ "user_id": "113", "rating": 5, "comment": "Very comfortable for long work hours!", "date": "2025-02-15T13:10:00Z" }]
   },
   {
     "id": 12,
@@ -129,6 +129,6 @@
     "discount": 5,
     "quantity": 80,
     "created_at": "2025-02-16T14:10:00Z",
-    "reviews": [{ "user_id": 114, "rating": 5, "comment": "Helps improve my posture!", "date": "2025-02-17T17:00:00Z" }]
+    "reviews": [{ "user_id": "114", "rating": 5, "comment": "Helps improve my posture!", "date": "2025-02-17T17:00:00Z" }]
   }
 ]

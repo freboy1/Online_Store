@@ -16,7 +16,7 @@ type ProductModel struct {
 }
 
 type Review struct {
-	UserID  int64  `bson:"user_id"`
+	UserID  string  `bson:"user_id"`
 	Rating  int    `bson:"rating"`
 	Comment string `bson:"comment"`
 	Date    time.Time `bson:"date"`

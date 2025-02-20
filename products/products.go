@@ -46,7 +46,6 @@ func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Clien
 		} else {
 			pageData.Products = products
 		}
-		fmt.Println(products)
 		// Применяем пагинацию
 		pageData.Pages, pageData.Products, err = Paginate(pageData.Products, 3, page)
 		if err != nil {
