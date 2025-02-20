@@ -20,23 +20,50 @@ func ProductsHandler(w http.ResponseWriter, r *http.Request, client *mongo.Clien
 	pageData.Products = products
 	if r.Method == http.MethodGet {
 		r.ParseForm()
+
+		// Получаем параметры из формы
+		filters := map[string]interface{}{
+			"categories":  r.Form["filterCategory"], // Теперь получаем массив значений
+			"minPrice":    r.FormValue("minPrice"),
+			"maxPrice":    r.FormValue("maxPrice"),
+			"minQuantity": r.FormValue("minQuantity"),
+			"maxQuantity": r.FormValue("maxQuantity"),
+			"minRating":   r.FormValue("minRating"),
+			"sortBy":      r.FormValue("sortBy"),
+			"search":      r.FormValue("search"),
+		}
+
+		// Получаем номер страницы для пагинации
 		page, err := getPage(r.URL.Query().Get("page"))
 		if err != nil || page == 0 {
-			pageData.Error = "Pagination must be numbers"
+			pageData.Error = "Pagination must be a number"
 		}
-		products, err = filterSortProducts(products, client, database, collection, r.Form["filter"], r.FormValue("sort"))
+
+		// Фильтрация и сортировка
+		products, err := GetFilteredProducts(client, database, collection, filters)
 		if err != nil {
-			pageData.Error = "Mistake with sort"
+			pageData.Error = "Error fetching products"
+		} else {
+			pageData.Products = products
 		}
-		pageData.Pages, pageData.Products, err = Paginate(products, 3, page)
+		fmt.Println(products)
+		// Применяем пагинацию
+		pageData.Pages, pageData.Products, err = Paginate(pageData.Products, 3, page)
 		if err != nil {
 			pageData.Error = "Wrong number of pagination"
 		}
+
+		// Логирование
+		logger.LogUserAction(log, "get Products", "1", "products", map[string]interface{}{
+			"filters": filters,
+			"Page":    page,
+		})
+
+		// Рендеринг шаблона
 		tmpl, errTempl := template.ParseFiles("templates/products.html")
 		if errTempl != nil {
 			pageData.Error = "Error with template"
 		}
-		logger.LogUserAction(log, "get Products", "1", "produtcs", map[string]interface{}{"filter": r.Form["filter"], "sort": r.FormValue("sort"), "Page Pagination": page})
 		tmpl.Execute(w, pageData)
 	} else if r.Method == http.MethodPost {
 		if err := r.ParseForm(); err != nil {
@@ -220,4 +247,107 @@ func GeneratePages(n int) []int {
         pages[i] = i + 1
     }
     return pages
+}
+func GetFilteredProducts(client *mongo.Client, database, collection string, filters map[string]interface{}) ([]ProductModel, error) {
+	ctx := context.TODO()
+	coll := client.Database(database).Collection(collection)
+
+	// Фильтр
+	filter := bson.M{}
+
+	// Фильтр по категориям
+	if categories, ok := filters["categories"].([]string); ok && len(categories) > 0 {
+		filter["category"] = bson.M{"$in": categories}
+	}
+
+	// Фильтр по цене
+	priceFilter := bson.M{}
+	if minPrice, ok := filters["minPrice"].(string); ok && minPrice != "" {
+		value, _ := strconv.Atoi(minPrice)
+		priceFilter["$gte"] = value
+	}
+	if maxPrice, ok := filters["maxPrice"].(string); ok && maxPrice != "" {
+		value, _ := strconv.Atoi(maxPrice)
+		priceFilter["$lte"] = value
+	}
+	if len(priceFilter) > 0 {
+		filter["price"] = priceFilter
+	}
+
+	// Фильтр по количеству
+	quantityFilter := bson.M{}
+	if minQuantity, ok := filters["minQuantity"].(string); ok && minQuantity != "" {
+		value, _ := strconv.Atoi(minQuantity)
+		quantityFilter["$gte"] = value
+	}
+	if maxQuantity, ok := filters["maxQuantity"].(string); ok && maxQuantity != "" {
+		value, _ := strconv.Atoi(maxQuantity)
+		quantityFilter["$lte"] = value
+	}
+	if len(quantityFilter) > 0 {
+		filter["quantity"] = quantityFilter
+	}
+
+	// Фильтр по поиску
+	if search, ok := filters["search"].(string); ok && search != "" {
+		filter["$or"] = []bson.M{
+			{"name": bson.M{"$regex": search, "$options": "i"}},
+			{"description": bson.M{"$regex": search, "$options": "i"}},
+		}
+	}
+
+	// Сортировка
+	sortOrder := bson.D{}
+	if sortBy, ok := filters["sortBy"].(string); ok {
+		switch sortBy {
+		case "price_asc":
+			sortOrder = bson.D{{"price", 1}}
+		case "price_desc":
+			sortOrder = bson.D{{"price", -1}}
+		case "discount_desc":
+			sortOrder = bson.D{{"discount", -1}}
+		case "quantity_desc":
+			sortOrder = bson.D{{"quantity", -1}}
+		case "rating_desc":
+			sortOrder = bson.D{{"average_rating", -1}}
+		case "createdAt_desc":
+			sortOrder = bson.D{{"created_at", -1}}
+		}
+	}
+
+	// Агрегация для среднего рейтинга
+	pipeline := mongo.Pipeline{
+		{{Key: "$match", Value: filter}},
+		{
+			{Key: "$set", Value: bson.M{
+				"average_rating": bson.M{"$ifNull": []interface{}{bson.M{"$avg": "$reviews.rating"}, 0}},
+			}},
+		},
+	}
+
+	// Фильтр по рейтингу
+	if minRating, ok := filters["minRating"].(string); ok && minRating != "" {
+		ratingValue, _ := strconv.Atoi(minRating)
+		pipeline = append(pipeline, bson.D{
+			{Key: "$match", Value: bson.M{"average_rating": bson.M{"$gte": ratingValue}}},
+		})
+	}
+
+	// Добавляем сортировку в конвейер
+	if len(sortOrder) > 0 {
+		pipeline = append(pipeline, bson.D{{Key: "$sort", Value: sortOrder}})
+	}
+
+	cursor, err := coll.Aggregate(ctx, pipeline)
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close(ctx)
+
+	var products []ProductModel
+	if err = cursor.All(ctx, &products); err != nil {
+		return nil, err
+	}
+
+	return products, nil
 }
